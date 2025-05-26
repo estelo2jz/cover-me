@@ -276,8 +276,8 @@
   margin-bottom: 2rem;
 
   p {
+    font-weight: 600;
     margin-bottom: 0.5rem;
-    font-weight: bold;
     color: #444;
   }
 
@@ -285,47 +285,69 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 1rem;
+
+    @media (max-width: 600px) {
+      display: flex;
+      overflow-x: auto;
+      gap: 0.75rem;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 1rem;
+
+      &::-webkit-scrollbar {
+        height: 6px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 4px;
+      }
+    }
   }
 
   .dashboard__user-card {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    background: #f8f8f8;
-    border: 2px solid transparent;
+    flex: 0 0 auto;
+    min-width: 160px;
+    max-width: 200px;
+    background: #f9f9f9;
     border-radius: 10px;
-    padding: 0.75rem 1rem;
+    padding: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     cursor: pointer;
-    transition: border-color 0.2s ease, background 0.2s ease;
+    transition: transform 0.2s ease;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 
     &:hover {
-      background: #f0f0f0;
+      transform: translateY(-4px);
     }
 
     &.active {
-      border-color: #5b3cc4;
-      background: #eae4ff;
+      border: 2px solid #5b3cc4;
+      background: #f0ecff;
     }
 
     .dashboard__user-initial {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
       background: #5b3cc4;
-      color: white;
+      color: #fff;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
       font-weight: bold;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 1rem;
-      flex-shrink: 0;
+      margin-bottom: 0.5rem;
     }
 
     .dashboard__user-info {
+      font-size: 0.85rem;
+
       p {
-        margin: 0;
-        font-size: 0.85rem;
-        color: #333;
+        margin: 0.3rem 0;
       }
 
       .dashboard__user-name {
@@ -338,13 +360,11 @@
       }
 
       .dashboard__user-total {
-        font-weight: 500;
-        color: #666;
+        color: #333;
       }
 
       .dashboard__user-completed {
         color: #3da860;
-        font-weight: 600;
       }
     }
   }

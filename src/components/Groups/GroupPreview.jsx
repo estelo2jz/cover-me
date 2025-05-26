@@ -10,12 +10,13 @@ const GroupPreview = ({ group, currentUser, onBack, onJoin, onDelete }) => {
   return (
     <div className="group-preview">
       <div className="group-preview__header">
-        <button onClick={onBack} className="group-preview__back">← Back</button>
+        <button className="group-preview__back" onClick={onBack}>← Back</button>
         <h2>{group.name}</h2>
         <p className="group-preview__status">
           {group.isActive ? "🟢 Active" : "🕓 Pending"}
         </p>
       </div>
+
 
       <div className="group-preview__grid">
         <div className="group-preview__info">
