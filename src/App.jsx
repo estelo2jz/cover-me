@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Admin from "./pages/Admin";
 import UserDashboard from "./pages/UserDashboard";
 import CreateGroupPage from "./pages/CreateGroupPage";
+import Navigation from "./components/Navigation/Navigation";
 import "./App.scss";
 
 const App = () => {
@@ -13,16 +14,7 @@ const App = () => {
   return (
     <Router>
       <div className="app">
-        <header className="app__header">
-          <h1>💰Cover Me</h1>
-          <nav className="app__nav">
-            <Link to="/">Home</Link>
-            <Link to="/create">Create Group</Link>
-            <Link to="/my-groups">My Groups</Link>
-            <Link to="/admin">Admin</Link>
-
-          </nav>
-        </header>
+        <Navigation currentUser={currentUser} />
 
         <main className="app__main">
           <Routes>
