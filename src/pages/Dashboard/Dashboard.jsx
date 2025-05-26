@@ -1,76 +1,32 @@
-// ✅ Dashboard.jsx (Full Complete Code w/ Delete from Preview)
-
 import React, { useEffect, useState } from "react";
 import CreateGroup from "../../components/CreateGroup/CreateGroup";
 import Groups from "../../components/Groups/Groups";
 import GroupPreview from "../../components/Groups/GroupPreview";
 import GroupDetail from "../../components/GroupDetail/GroupDetail";
-import SimulateUser from "../../components/SimulateUser/SimulateUser";
+import UserSwitch from "../../components/UserSwitch/UserSwitch";
 import "./Dashboard.scss";
 
 const Dashboard = ({ currentUser, setCurrentUser }) => {
   const [groups, setGroups] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState(null);
-  const [previewGroup, setPreviewGroup] = useState(null);
+  const [previewGroup, setPreviewGroup] = useState(null); // ✅ THIS LINE IS REQUIRED
   const [filter, setFilter] = useState("all");
 
+  // Add these to your Dashboard component state
+  const [showJoinModal, setShowJoinModal] = useState(false);
+  const [joinedGroup, setJoinedGroup] = useState(null);
+
   const users = [
-    "You", "Alice", "Bob", "Charlie", "Diana", "Ethan", "Frank", "Grace",
-    "Hannah", "Ivan", "Jenny", "Kyle", "Liam", "Mia", "Noah", "Olivia", "Paul",
-    "Quinn", "Riley", "Sophia", "Tyler", "Uma", "Victor", "Wendy", "Xavier",
-    "Yara", "Zane"
+    "You", "Alice", "Bob", "Charlie", "Diana", "Ethan", "Frank", "Grace", "Hannah",
+    "Ivan", "Jenny", "Kyle", "Liam", "Mia", "Noah", "Olivia", "Paul", "Quinn",
+    "Riley", "Sophia", "Tyler", "Uma", "Victor", "Wendy", "Xavier", "Yara", "Zane"
   ];
 
-  const seedGroups = (creatorName) => {
-    const groupNames = ["Emergency Fund", "Wedding Trip", "Gaming PC Build", "Business Starter", "Car Downpayment"];
-    const userPool = [...users];
-    const monthsOptions = [6, 9, 12];
-    const groups = [];
-
-    groupNames.forEach((name, i) => {
-      const months = monthsOptions[Math.floor(Math.random() * monthsOptions.length)];
-      const target = Math.floor(Math.random() * 1000 + 1000);
-      const memberLimit = 6;
-      const randomMembers = userPool.sort(() => 0.5 - Math.random()).slice(0, memberLimit - 1);
-      const members = [
-        { id: creatorName.toLowerCase(), name: creatorName },
-        ...randomMembers.map(name => ({ id: name.toLowerCase(), name }))
-      ];
-
-      const deposits = {};
-      members.forEach(m => {
-        deposits[m.name] = Array.from({ length: months }, () => Math.random() > 0.4);
-      });
-
-      const comments = [
-        { user: creatorName, text: "Let’s make this happen!", time: new Date().toLocaleString() },
-        { user: members[1].name, text: "Excited to start!", time: new Date().toLocaleString() }
-      ];
-
-      groups.push({
-        id: Date.now() + i,
-        name,
-        target,
-        months,
-        memberLimit,
-        members,
-        deposits,
-        comments,
-        isActive: true,
-        creator: creatorName,
-        monthlyPerUser: parseFloat((target / months / memberLimit).toFixed(2))
-      });
-    });
-
-    localStorage.setItem("savingsGroups", JSON.stringify(groups));
-    setGroups(groups);
-  };
-
+  // Load or Seed Groups
   useEffect(() => {
     const stored = localStorage.getItem("savingsGroups");
     if (stored) {
-      let parsed = JSON.parse(stored);
-      parsed = parsed.map((g) => {
+      const parsed = JSON.parse(stored).map(g => {
         const fixedMembers = Array.isArray(g.members) ? g.members : [];
         const isActive = fixedMembers.length === 6;
         return {
@@ -79,9 +35,7 @@ const Dashboard = ({ currentUser, setCurrentUser }) => {
           deposits: typeof g.deposits === "object" ? g.deposits : {},
           comments: Array.isArray(g.comments) ? g.comments : [],
           isActive,
-          monthlyPerUser: isActive
-            ? parseFloat((g.target / g.months / 6).toFixed(2))
-            : g.monthlyPerUser || 0
+          monthlyPerUser: isActive ? parseFloat((g.target / g.months / 6).toFixed(2)) : g.monthlyPerUser || 0
         };
       });
       setGroups(parsed);
@@ -91,14 +45,49 @@ const Dashboard = ({ currentUser, setCurrentUser }) => {
     }
   }, [currentUser]);
 
-  const saveGroups = (updatedGroups) => {
-    setGroups(updatedGroups);
-    localStorage.setItem("savingsGroups", JSON.stringify(updatedGroups));
+  // Seed default groups
+  const seedGroups = (creatorName) => {
+    const groupNames = ["Emergency Fund", "Wedding Trip", "Gaming PC Build", "Business Starter", "Car Downpayment"];
+    const userPool = [...users];
+    const monthsOptions = [6, 9, 12];
+    const seeded = groupNames.map((name, i) => {
+      const months = monthsOptions[Math.floor(Math.random() * monthsOptions.length)];
+      const target = Math.floor(Math.random() * 1000 + 1000);
+      const randomMembers = userPool.sort(() => 0.5 - Math.random()).slice(0, 5);
+      const members = [
+        { id: creatorName.toLowerCase(), name: creatorName },
+        ...randomMembers.map(n => ({ id: n.toLowerCase(), name: n }))
+      ];
+      const deposits = {};
+      members.forEach(m => {
+        deposits[m.name] = Array.from({ length: months }, () => Math.random() > 0.4);
+      });
+      return {
+        id: Date.now() + i,
+        name,
+        target,
+        months,
+        memberLimit: 6,
+        members,
+        deposits,
+        comments: [
+          { user: creatorName, text: "Let’s make this happen!", time: new Date().toLocaleString() },
+          { user: members[1].name, text: "Excited to start!", time: new Date().toLocaleString() }
+        ],
+        isActive: true,
+        creator: creatorName,
+        monthlyPerUser: parseFloat((target / months / 6).toFixed(2))
+      };
+    });
+
+    localStorage.setItem("savingsGroups", JSON.stringify(seeded));
+    setGroups(seeded);
   };
 
-  const handleCreateGroup = (group) => {
-    const newGroups = [group, ...groups];
-    saveGroups(newGroups);
+  // Helpers
+  const saveGroups = (updated) => {
+    setGroups(updated);
+    localStorage.setItem("savingsGroups", JSON.stringify(updated));
   };
 
   const updateGroup = (updatedGroup) => {
@@ -106,32 +95,40 @@ const Dashboard = ({ currentUser, setCurrentUser }) => {
     saveGroups(newList);
   };
 
+  const handleCreateGroup = (group) => {
+    saveGroups([group, ...groups]);
+  };
+
   const handleJoinGroup = (group) => {
     const updated = { ...group };
-    if (!Array.isArray(updated.members)) updated.members = [];
+    updated.members ||= [];
+
     const isAlreadyMember = updated.members.some((m) => m.name === currentUser);
     if (!isAlreadyMember && updated.members.length < 6) {
       updated.members.push({ id: currentUser.toLowerCase(), name: currentUser });
       updated.deposits ||= {};
-      if (!Array.isArray(updated.deposits[currentUser])) {
-        updated.deposits[currentUser] = Array(updated.months).fill(false);
-      }
+      updated.deposits[currentUser] = Array(updated.months).fill(false);
+
       if (updated.members.length === 6) {
         updated.isActive = true;
         updated.monthlyPerUser = updated.target / updated.months / 6;
         updated.members.forEach((m) => {
-          if (!Array.isArray(updated.deposits[m.name])) {
-            updated.deposits[m.name] = Array(updated.months).fill(false);
-          }
+          updated.deposits[m.name] ||= Array(updated.months).fill(false);
         });
       }
+
       updateGroup(updated);
+
+      // ✅ Trigger modal
+      setJoinedGroup(updated);
+      setShowJoinModal(true);
     }
   };
 
+
+
   const handleDeleteGroup = (groupId) => {
-    const remaining = groups.filter((g) => g.id !== groupId);
-    saveGroups(remaining);
+    saveGroups(groups.filter((g) => g.id !== groupId));
     setSelectedGroup(null);
     setPreviewGroup(null);
   };
@@ -142,87 +139,60 @@ const Dashboard = ({ currentUser, setCurrentUser }) => {
     return true;
   });
 
-  const getUserGroupCount = (user) => {
-    const stored = localStorage.getItem("savingsGroups");
-    if (!stored) return 0;
-
-    const allGroups = JSON.parse(stored);
-    return allGroups.filter(
-      (g) => Array.isArray(g.members) && g.members.some((m) => m.name === user)
-    ).length;
-  };
-
   const getUserStats = (user) => {
-    const stored = localStorage.getItem("savingsGroups");
-    if (!stored) return { groupCount: 0, totalTarget: 0, completed: 0 };
-
-    const allGroups = JSON.parse(stored);
-    const userGroups = allGroups.filter(
-      (g) => Array.isArray(g.members) && g.members.some((m) => m.name === user)
-    );
-
-    const totalTarget = userGroups.reduce((acc, g) => acc + g.target, 0);
-
-    const completed = userGroups.filter((group) => {
-      const deposits = group.deposits?.[user];
-      return Array.isArray(deposits) && deposits.every(Boolean);
-    }).length;
+    const stored = JSON.parse(localStorage.getItem("savingsGroups")) || [];
+    const userGroups = stored.filter(g => g.members?.some(m => m.name === user));
+    const totalTarget = userGroups.reduce((sum, g) => sum + g.target, 0);
+    const completed = userGroups.filter(g =>
+      Array.isArray(g.deposits?.[user]) && g.deposits[user].every(Boolean)
+    ).length;
 
     return {
       groupCount: userGroups.length,
       totalTarget: totalTarget.toFixed(2),
-      completed,
+      completed
     };
   };
 
+  // UI Views
+  const renderPath = () => (
+    <div className="dashboard__path">
+
+    </div>
+  );
+
+  const renderUserTools = () => (
+    <>
+      <UserSwitch
+        users={users}
+        currentUser={currentUser}
+        setCurrentUser={setCurrentUser}
+        getUserStats={getUserStats}
+      />
+    </>
+  );
+
+  const renderGroupFilters = () => (
+    <div className="dashboard__filters">
+      {["all", "active", "pending"].map((type) => (
+        <button
+          key={type}
+          className={filter === type ? "active" : ""}
+          onClick={() => setFilter(type)}
+        >
+          {type.charAt(0).toUpperCase() + type.slice(1)}
+        </button>
+      ))}
+    </div>
+  );
 
 
 
   return (
     <div className="dashboard">
-      {!previewGroup && !selectedGroup && (
-        // src/pages/Dashboard/Dashboard.jsx (within the main return)
+      {renderPath()}
 
-        <div className="dashboard__user-grid">
-          <p><strong>Simulate User:</strong></p>
-          <div className="dashboard__users">
-            {users.map((user) => {
-              const isActive = user === currentUser;
-              const { groupCount, totalTarget, completed } = getUserStats(user);
-
-              return (
-                <div
-                  key={user}
-                  className={`dashboard__user-card ${isActive ? "active" : ""}`}
-                  onClick={() => setCurrentUser(user)}
-                >
-                  <div className="dashboard__avatar-container">
-                    <div className="dashboard__avatar">
-                      {user.charAt(0)}
-                    </div>
-
-                    <div className="dashboard__profile-tooltip">
-                      <p><strong>{user}</strong></p>
-                      <p>{groupCount} groups</p>
-                      <p>💰 ${totalTarget}</p>
-                      <p>✅ {completed} completed</p>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-
-
-
-
-      )}
-
-      <div className="dashboard__path">
-        📍 Path: {previewGroup ? `Home > Preview: ${previewGroup.name}` : selectedGroup ? `Home > Group: ${selectedGroup.name}` : "Home"}
-      </div>
+      {!previewGroup && !selectedGroup && renderUserTools()}
 
       {previewGroup ? (
         <GroupPreview
@@ -234,7 +204,7 @@ const Dashboard = ({ currentUser, setCurrentUser }) => {
             setPreviewGroup(null);
             setSelectedGroup(group);
           }}
-          onDelete={handleDeleteGroup} // ✅ pass to GroupPreview
+          onDelete={handleDeleteGroup}
         />
       ) : selectedGroup ? (
         <GroupDetail
@@ -246,11 +216,7 @@ const Dashboard = ({ currentUser, setCurrentUser }) => {
         />
       ) : (
         <>
-          <div className="dashboard__filters">
-            <button onClick={() => setFilter("all")} className={filter === "all" ? "active" : ""}>All</button>
-            <button onClick={() => setFilter("active")} className={filter === "active" ? "active" : ""}>Active</button>
-            <button onClick={() => setFilter("pending")} className={filter === "pending" ? "active" : ""}>Pending</button>
-          </div>
+          {renderGroupFilters()}
           <Groups
             groups={filteredGroups}
             currentUser={currentUser}
@@ -259,6 +225,39 @@ const Dashboard = ({ currentUser, setCurrentUser }) => {
           />
         </>
       )}
+      {showJoinModal && (
+        <div className="dashboard__modal-overlay">
+          <div className="dashboard__modal">
+            <h3>🎉 Joined Successfully</h3>
+            <p>You’ve joined <strong>{joinedGroup.name}</strong>.</p>
+            <p>Would you like to view the group details now?</p>
+
+            <div className="dashboard__modal-buttons">
+              <button
+                className="confirm-btn"
+                onClick={() => {
+                  setSelectedGroup(joinedGroup);
+                  setPreviewGroup(null);
+                  setShowJoinModal(false);
+                  setJoinedGroup(null);
+                }}
+              >
+                Yes, View Group
+              </button>
+              <button
+                className="cancel-btn"
+                onClick={() => {
+                  setShowJoinModal(false);
+                  setJoinedGroup(null);
+                }}
+              >
+                Not Now
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

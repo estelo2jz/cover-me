@@ -1,22 +1,39 @@
 // src/components/Groups/GroupPreview.jsx
 import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./GroupPreview.scss";
 
 const GroupPreview = ({ group, currentUser, onBack, onJoin, onDelete }) => {
   const [showAdminOptions, setShowAdminOptions] = useState(false);
-  const isMember = Array.isArray(group.members) && group.members.some((m) => m.name === currentUser);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const isMember =
+    Array.isArray(group.members) &&
+    group.members.some((m) => m.name === currentUser);
   const isFull = group.members?.length >= group.memberLimit;
+  const cameFromProfile = location.state?.from === "profile";
 
   return (
     <div className="group-preview">
       <div className="group-preview__header">
-        <button className="group-preview__back" onClick={onBack}>← Back</button>
+        <button
+          className="group-preview__back"
+          onClick={() => {
+            if (cameFromProfile) {
+              navigate(`/profile/${group.creator}`);
+            } else {
+              onBack();
+            }
+          }}
+        >
+          ← Back
+        </button>
         <h2>{group.name}</h2>
         <p className="group-preview__status">
           {group.isActive ? "🟢 Active" : "🕓 Pending"}
         </p>
       </div>
-
 
       <div className="group-preview__grid">
         <div className="group-preview__info">
@@ -43,13 +60,18 @@ const GroupPreview = ({ group, currentUser, onBack, onJoin, onDelete }) => {
       </div>
 
       {!isMember && !isFull && (
-        <button className="group-preview__join" onClick={() => onJoin(group)}>
+        <button
+          className="group-preview__join"
+          onClick={() => onJoin(group)}
+        >
           Join this Group
         </button>
       )}
 
       {isMember && (
-        <p className="group-preview__message">✅ You’re already a member of this group.</p>
+        <p className="group-preview__message">
+          ✅ You’re already a member of this group.
+        </p>
       )}
 
       {isFull && !isMember && (
