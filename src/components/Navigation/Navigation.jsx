@@ -45,7 +45,7 @@ const Navigation = ({ currentUser }) => {
           <Link to="/" onClick={close}>Home</Link>
           <Link to="/my-groups" onClick={close}>My Groups</Link>
           <Link to="/create" onClick={close}>Create</Link>
-          <Link to="/admin" onClick={close}>Admin</Link>
+          {/* <Link to="/admin" onClick={close}>Admin</Link> */}
         </nav>
 
         <div className="nav__user">{currentUser}</div>
