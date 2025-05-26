@@ -19,7 +19,7 @@ const App = () => {
             <Link to="/">Home</Link>
             <Link to="/create">Create Group</Link>
             <Link to="/my-groups">My Groups</Link>
-            <Link to="/admin">Admin</Link>
+            {/* <Link to="/admin">Admin</Link> */}
 
           </nav>
         </header>

@@ -7,7 +7,7 @@ const Groups = ({ groups, onJoin, onPreview, currentUser }) => {
     <div className="groups">
       {groups.map((group) => {
         const isMember = Array.isArray(group.members) && group.members.some((m) => m.name === currentUser);
-        const isFull = group.members?.length >= group.memberLimit;
+        {/* const isFull = group.members?.length >= group.memberLimit; */}
 
         return (
           <div
