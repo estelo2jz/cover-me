@@ -1,5 +1,5 @@
 // src/components/GroupDetail/GroupDetail.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BarChart,
   Bar,
@@ -7,14 +7,14 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  Legend,
+  Legend
 } from "recharts";
 import "./GroupDetail.scss";
-import Modal from "../Modal/Modal";
 
-const GroupDetail = ({ group, currentUser, onBack, onUpdate, onDelete }) => {
+const GroupDetail = ({ group, currentUser, onBack, onUpdate }) => {
   const [commentText, setCommentText] = useState("");
-  const [showModal, setShowModal] = useState(false);
+  const [showComments, setShowComments] = useState(false);
+  const [expandedMember, setExpandedMember] = useState(null);
 
   const handleDeposit = (monthIndex) => {
     const updated = { ...group };
@@ -33,6 +33,7 @@ const GroupDetail = ({ group, currentUser, onBack, onUpdate, onDelete }) => {
     updated.comments.push(newComment);
     onUpdate(updated);
     setCommentText("");
+    setShowComments(false);
   };
 
   const chartData = group.members.map((member) => {
@@ -45,14 +46,22 @@ const GroupDetail = ({ group, currentUser, onBack, onUpdate, onDelete }) => {
     };
   });
 
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === "Escape") setShowComments(false);
+    };
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, []);
+
   return (
     <div className="group-detail">
       <button className="group-detail__back" onClick={onBack}>← Back</button>
       <h2>{group.name}</h2>
-      <p>Target: ${group.target.toFixed(2)}</p>
-      <p>Duration: {group.months} months</p>
-      <p>Member Limit: {group.memberLimit ?? "6"}</p>
-      <p>Monthly per user: <strong>${group.monthlyPerUser.toFixed(2)}</strong></p>
+      <p><strong>Target:</strong> ${group.target.toFixed(2)}</p>
+      <p><strong>Duration:</strong> {group.months} months</p>
+      <p><strong>Monthly per user:</strong> ${group.monthlyPerUser.toFixed(2)}</p>
+      <p><strong>Created by:</strong> {group.creator || "Unknown"}</p>
 
       <h3>Contribution Chart</h3>
       <div className="group-detail__chart">
@@ -79,45 +88,84 @@ const GroupDetail = ({ group, currentUser, onBack, onUpdate, onDelete }) => {
         ))}
       </ul>
 
+      <h3>Members & Progress</h3>
+      <ul className="group-detail__members">
+        {group.members.map((member) => {
+          const deposits = group.deposits?.[member.name] || [];
+          const paid = deposits.filter(Boolean).length;
+          const percent = Math.round((paid / group.months) * 100);
+
+          return (
+            <li key={member.name}>
+              <div className="member-info" onClick={() => setExpandedMember(expandedMember === member.name ? null : member.name)}>
+                <span className="member-avatar">
+                  {member.avatar ? (
+                    <img src={member.avatar} alt={member.name} />
+                  ) : (
+                    member.name.charAt(0)
+                  )}
+                </span>
+                <span className="member-name">{member.name}</span>
+                {member.name === group.creator && <span className="creator-tag">(Creator)</span>}
+              </div>
+              <div className="progress-bar">
+                <div className="progress-bar__fill" style={{ width: `${percent}%` }} />
+              </div>
+              <span className="progress-label">{percent}%</span>
+
+              {expandedMember === member.name && (
+                <ul className="member-history">
+                  {deposits.map((d, i) => (
+                    <li key={i}>Month {i + 1}: {d ? "✅ Paid" : "❌ Not Paid"}</li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+
       <h3>Comments</h3>
-      <div className="group-detail__comments">
-        {group.comments.map((c, idx) => (
-          <div key={idx} className="group-detail__comment">
-            <strong>{c.user}</strong> ({c.time}): {c.text}
+      <button className="group-detail__toggle-comments" onClick={() => setShowComments(!showComments)}>
+        {showComments ? "Close Comments" : "Open Comments"}
+      </button>
+
+      {showComments && (
+        <div
+          className="group-detail__modal"
+          onClick={(e) => {
+            if (e.target.classList.contains("group-detail__modal")) {
+              setShowComments(false);
+            }
+          }}
+        >
+          <div className="group-detail__modal-content">
+            <button
+              className="group-detail__modal-close"
+              onClick={() => setShowComments(false)}
+            >
+              ❌
+            </button>
+
+            <div className="group-detail__comments">
+              {group.comments.map((c, idx) => (
+                <div key={idx} className="group-detail__comment">
+                  <strong>{c.user}</strong> ({c.time}): {c.text}
+                </div>
+              ))}
+            </div>
+
+            <form className="group-detail__form" onSubmit={(e) => { e.preventDefault(); handleComment(); }}>
+              <input
+                type="text"
+                placeholder="Add comment..."
+                value={commentText}
+                onChange={(e) => setCommentText(e.target.value)}
+              />
+              <button type="submit">Post</button>
+            </form>
           </div>
-        ))}
-      </div>
-
-      <form className="group-detail__form" onSubmit={(e) => { e.preventDefault(); handleComment(); }}>
-        <input
-          type="text"
-          placeholder="Add comment..."
-          value={commentText}
-          onChange={(e) => setCommentText(e.target.value)}
-        />
-        <button type="submit">Post</button>
-      </form>
-
-      {group.creator === currentUser && (
-        <>
-          <button
-            className="group-detail__delete"
-            onClick={() => setShowModal(true)}
-          >
-            🗑 Delete Group
-          </button>
-
-          <Modal
-            isOpen={showModal}
-            title="Delete Group"
-            message={`Are you sure you want to delete "${group.name}"? This cannot be undone.`}
-            onConfirm={() => {
-              onDelete(group.id);
-              setShowModal(false);
-            }}
-            onCancel={() => setShowModal(false)}
-          />
-        </>
+        </div>
       )}
     </div>
   );

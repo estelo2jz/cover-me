@@ -1,34 +1,54 @@
 // src/components/Navigation/Navigation.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./Navigation.scss";
+import CoverMe from "../../assets/coverme.png"
 
 const Navigation = ({ currentUser }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const location = useLocation();
 
   const toggle = () => setIsOpen(!isOpen);
   const close = () => setIsOpen(false);
 
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+
+    const handleScroll = () => {
+      const currentY = window.scrollY;
+      setHidden(currentY > lastScrollY && currentY > 50);
+      lastScrollY = currentY;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="nav">
+    <header className={`nav ${hidden ? "nav--hidden" : ""}`}>
       <div className="nav__wrapper">
-        <div className="nav__logo">💰 CoverMe</div>
+        <div className="nav__left">
+          <img src={CoverMe} alt="Logo" className="nav__logo" />
+          <button
+            className={`nav__hamburger ${isOpen ? "open" : ""}`}
+            onClick={toggle}
+            aria-label="Toggle navigation"
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+        </div>
 
         <nav className={`nav__menu ${isOpen ? "open" : ""}`}>
-          <Link to="/" onClick={close} className={location.pathname === "/" ? "active" : ""}>Home</Link>
-          <Link to="/my-groups" onClick={close} className={location.pathname === "/my-groups" ? "active" : ""}>My Groups</Link>
-          <Link to="/create" onClick={close} className={location.pathname === "/create" ? "active" : ""}>Create</Link>
-          {/* <Link to="/admin" onClick={close} className={location.pathname === "/admin" ? "active" : ""}>Admin</Link> */}
+          <Link to="/" onClick={close}>Home</Link>
+          <Link to="/my-groups" onClick={close}>My Groups</Link>
+          <Link to="/create" onClick={close}>Create</Link>
+          <Link to="/admin" onClick={close}>Admin</Link>
         </nav>
 
         <div className="nav__user">{currentUser}</div>
-
-        <div className={`nav__hamburger ${isOpen ? "open" : ""}`} onClick={toggle}>
-          <span />
-          <span />
-          <span />
-        </div>
       </div>
     </header>
   );

@@ -5,6 +5,7 @@ import CreateGroup from "../../components/CreateGroup/CreateGroup";
 import Groups from "../../components/Groups/Groups";
 import GroupPreview from "../../components/Groups/GroupPreview";
 import GroupDetail from "../../components/GroupDetail/GroupDetail";
+import SimulateUser from "../../components/SimulateUser/SimulateUser";
 import "./Dashboard.scss";
 
 const Dashboard = ({ currentUser, setCurrentUser }) => {
@@ -154,26 +155,26 @@ const Dashboard = ({ currentUser, setCurrentUser }) => {
   const getUserStats = (user) => {
     const stored = localStorage.getItem("savingsGroups");
     if (!stored) return { groupCount: 0, totalTarget: 0, completed: 0 };
-  
+
     const allGroups = JSON.parse(stored);
     const userGroups = allGroups.filter(
       (g) => Array.isArray(g.members) && g.members.some((m) => m.name === user)
     );
-  
+
     const totalTarget = userGroups.reduce((acc, g) => acc + g.target, 0);
-  
+
     const completed = userGroups.filter((group) => {
       const deposits = group.deposits?.[user];
       return Array.isArray(deposits) && deposits.every(Boolean);
     }).length;
-  
+
     return {
       groupCount: userGroups.length,
       totalTarget: totalTarget.toFixed(2),
       completed,
     };
   };
-  
+
 
 
 
@@ -194,20 +195,25 @@ const Dashboard = ({ currentUser, setCurrentUser }) => {
                   key={user}
                   className={`dashboard__user-card ${isActive ? "active" : ""}`}
                   onClick={() => setCurrentUser(user)}
-                  title={`${user} - ${groupCount} group(s)`}
                 >
-                  <div className="dashboard__user-initial">{user.charAt(0)}</div>
-                  <div className="dashboard__user-info">
-                    <p className="dashboard__user-name">{user}</p>
-                    <p className="dashboard__user-groups">{groupCount} group(s)</p>
-                    <p className="dashboard__user-total">Total: ${totalTarget}</p>
-                    <p className="dashboard__user-completed">✅ {completed} completed</p>
+                  <div className="dashboard__avatar-container">
+                    <div className="dashboard__avatar">
+                      {user.charAt(0)}
+                    </div>
+
+                    <div className="dashboard__profile-tooltip">
+                      <p><strong>{user}</strong></p>
+                      <p>{groupCount} groups</p>
+                      <p>💰 ${totalTarget}</p>
+                      <p>✅ {completed} completed</p>
+                    </div>
                   </div>
                 </div>
               );
             })}
           </div>
         </div>
+
 
 
 
