@@ -1,0 +1,92 @@
+.group-detail {
+  .group-detail__back {
+    background: none;
+    border: none;
+    color: #5b3cc4;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    cursor: pointer;
+  }
+
+  .group-detail__chart {
+    margin-bottom: 2rem;
+  }
+
+  .group-detail__deposits {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
+
+    li {
+      margin-bottom: 0.5rem;
+
+      .pay-btn {
+        margin-left: 1rem;
+        background: #4caf50;
+        color: #fff;
+        border: none;
+        padding: 0.3rem 0.6rem;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:hover {
+          background: #388e3c;
+        }
+      }
+    }
+  }
+
+  .group-detail__comments {
+    margin-bottom: 1rem;
+
+    .group-detail__comment {
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      padding: 0.5rem;
+      border-radius: 4px;
+      margin-bottom: 0.4rem;
+    }
+  }
+
+  .group-detail__form {
+    display: flex;
+    gap: 0.5rem;
+
+    input {
+      flex: 1;
+      padding: 0.5rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      background: #5b3cc4;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+
+      &:hover {
+        background: #47299b;
+      }
+    }
+  }
+}
+
+
+.group-detail__delete {
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  margin-top: 1.5rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: #d93636;
+  }
+}

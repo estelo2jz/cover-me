@@ -1,0 +1,35 @@
+.app {
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  background: #f4f4f4;
+
+  &__header {
+    background: #5b3cc4;
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h1 {
+      margin: 0;
+    }
+
+    .app__nav {
+      a {
+        color: white;
+        margin-left: 1rem;
+        text-decoration: none;
+        font-weight: bold;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  &__main {
+    padding: 2rem;
+  }
+}

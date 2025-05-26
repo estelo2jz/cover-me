@@ -1,0 +1,51 @@
+.create-group-page {
+  max-width: 500px;
+  margin: 2rem auto;
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+
+  h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #5b3cc4;
+  }
+
+  .create-group-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+
+    label {
+      display: flex;
+      flex-direction: column;
+      font-weight: 600;
+      color: #444;
+
+      input,
+      select {
+        margin-top: 0.4rem;
+        padding: 0.6rem;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+      }
+    }
+
+    button {
+      padding: 0.75rem 1.5rem;
+      background: #5b3cc4;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: #3e2ca1;
+      }
+    }
+  }
+}

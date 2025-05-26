@@ -1,0 +1,129 @@
+.group-preview {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 800px;
+  margin: 2rem auto;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    h2 {
+      margin: 0;
+      font-size: 1.8rem;
+      color: #333;
+    }
+  }
+
+  &__back {
+    border: none;
+    background: none;
+    color: #5b3cc4;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+
+  &__status {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: bold;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+  }
+
+  &__info,
+  &__members {
+    background: #f9f9f9;
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.03);
+
+    h3 {
+      margin-top: 0;
+      color: #5b3cc4;
+    }
+
+    p,
+    li {
+      margin: 0.4rem 0;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+  }
+
+  &__join {
+    margin-top: 1.5rem;
+    padding: 0.6rem 1.5rem;
+    background: #5b3cc4;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background: #47299b;
+    }
+  }
+
+  &__message {
+    margin-top: 1rem;
+    color: #555;
+    font-style: italic;
+  }
+}
+
+
+.group-preview__manage-btn {
+  margin-top: 1rem;
+  padding: 0.4rem 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  background: #f1f1f1;
+  cursor: pointer;
+
+  &:hover {
+    background: #ddd;
+  }
+}
+
+.group-preview__admin-panel {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  background: #fafafa;
+  border-radius: 8px;
+
+  p {
+    margin: 0 0 0.5rem;
+    font-weight: bold;
+  }
+
+  .group-preview__delete-btn {
+    background: #ff4d4d;
+    color: white;
+    padding: 0.4rem 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:hover {
+      background: #d93636;
+    }
+  }
+}

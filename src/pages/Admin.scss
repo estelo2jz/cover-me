@@ -1,0 +1,47 @@
+.admin {
+  padding: 2rem;
+
+  h1 {
+    margin-bottom: 1rem;
+    color: #5b3cc4;
+  }
+
+  .admin__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .admin__card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.06);
+
+    h3 {
+      margin-top: 0;
+      font-size: 1.2rem;
+      color: #333;
+    }
+
+    p {
+      margin: 0.3rem 0;
+    }
+
+    .admin__delete-btn {
+      margin-top: 1rem;
+      background: #ff4d4d;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      font-weight: bold;
+
+      &:hover {
+        background: #d93636;
+      }
+    }
+  }
+}
