@@ -13,7 +13,7 @@ const Navigation = ({ currentUser }) => {
   return (
     <header className="nav">
       <div className="nav__wrapper">
-        <div className="nav__logo">💰 Cover Me</div>
+        <div className="nav__logo">💰 CoverMe</div>
 
         <nav className={`nav__menu ${isOpen ? "open" : ""}`}>
           <Link to="/" onClick={close} className={location.pathname === "/" ? "active" : ""}>Home</Link>

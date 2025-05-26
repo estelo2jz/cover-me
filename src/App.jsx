@@ -15,6 +15,10 @@ const App = () => {
     <Router>
       <div className="app">
         <Navigation currentUser={currentUser} />
+      <p className="app__description">
+      CoverMe is a collaborative savings platform that connects users to pool their funds and grow their savings collectively. Whether it's short-term goals or long-term financial planning,
+      SaveTogether allows members to choose contract lengths that fit their needs. By committing to a shared savings plan, users can benefit from increased financial security, smart goal-setting, and even potential rewards for staying committed. Team up, save smarter, and reach financial goals faster—together!
+      </p>
 
         <main className="app__main">
           <Routes>
