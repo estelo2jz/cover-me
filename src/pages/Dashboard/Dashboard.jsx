@@ -26,7 +26,7 @@ const Dashboard = ({ currentUser, setCurrentUser }) => {
     return saved ? JSON.parse(saved) : [
       "You", "Alice", "Bob", "Charlie", "Diana", "Ethan", "Frank", "Grace",
       "Hannah", "Ivan", "Jenny", "Kyle", "Liam", "Mia", "Noah", "Olivia", "Paul",
-      "Quinn", "Riley", "Sophia", "Tyler", "Uma", "Victor", "Wendy", "Xavier",
+      "Quinn", "Riley", "Sophia", "Tyler", "Uma", "Victor", "Telo", "Xavier",
       "Yara", "Zane"
     ];
   });
