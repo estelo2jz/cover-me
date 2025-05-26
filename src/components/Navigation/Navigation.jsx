@@ -29,8 +29,10 @@ const Navigation = ({ currentUser }) => {
     <header className={`nav ${hidden ? "nav--hidden" : ""}`}>
       <div className="nav__wrapper">
         <div className="nav__left">
-          <img src={CoverMe} alt="Logo" className="nav__logo" />
-          <button
+          <Link to="/">
+            <img src={CoverMe} alt="Logo" className="nav__logo" />
+          </Link>
+          {/* <button
             className={`nav__hamburger ${isOpen ? "open" : ""}`}
             onClick={toggle}
             aria-label="Toggle navigation"
@@ -38,14 +40,14 @@ const Navigation = ({ currentUser }) => {
             <span />
             <span />
             <span />
-          </button>
+          </button> */}
         </div>
 
-        <nav className={`nav__menu ${isOpen ? "open" : ""}`}>
+        {/* <nav className={`nav__menu ${isOpen ? "open" : ""}`}>
           <Link to="/" onClick={close}>Home</Link>
           <Link to="/create" onClick={close}>Create</Link>
-          {/* <Link to="/admin" onClick={close}>Admin</Link> */}
-        </nav>
+          <Link to="/admin" onClick={close}>Admin</Link>
+        </nav> */}
 
         <div className="nav__user">{currentUser}</div>
       </div>

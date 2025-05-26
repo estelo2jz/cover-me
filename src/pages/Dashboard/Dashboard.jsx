@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CreateGroup from "../../components/CreateGroup/CreateGroup";
 import Groups from "../../components/Groups/Groups";
 import GroupPreview from "../../components/Groups/GroupPreview";
@@ -11,16 +12,49 @@ const Dashboard = ({ currentUser, setCurrentUser }) => {
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [previewGroup, setPreviewGroup] = useState(null); // ✅ THIS LINE IS REQUIRED
   const [filter, setFilter] = useState("all");
+  const navigate = useNavigate();
 
   // Add these to your Dashboard component state
   const [showJoinModal, setShowJoinModal] = useState(false);
   const [joinedGroup, setJoinedGroup] = useState(null);
 
-  const users = [
-    "You", "Alice", "Bob", "Charlie", "Diana", "Ethan", "Frank", "Grace", "Hannah",
-    "Ivan", "Jenny", "Kyle", "Liam", "Mia", "Noah", "Olivia", "Paul", "Quinn",
-    "Riley", "Sophia", "Tyler", "Uma", "Victor", "Wendy", "Xavier", "Yara", "Zane"
-  ];
+  const [showAddUserModal, setShowAddUserModal] = useState(false);
+  const [newUserName, setNewUserName] = useState("");
+
+  const [users, setUsers] = useState(() => {
+    const saved = localStorage.getItem("storedUsers");
+    return saved ? JSON.parse(saved) : [
+      "You", "Alice", "Bob", "Charlie", "Diana", "Ethan", "Frank", "Grace",
+      "Hannah", "Ivan", "Jenny", "Kyle", "Liam", "Mia", "Noah", "Olivia", "Paul",
+      "Quinn", "Riley", "Sophia", "Tyler", "Uma", "Victor", "Wendy", "Xavier",
+      "Yara", "Zane"
+    ];
+  });
+
+
+
+  const handleAddNewUser = () => {
+    const trimmed = newUserName.trim();
+    if (!trimmed) return;
+
+    const newList = users.includes(trimmed) ? users : [...users, trimmed];
+    setUsers(newList);
+    localStorage.setItem("storedUsers", JSON.stringify(newList));
+
+    setNewUserName("");
+    setShowAddUserModal(false);
+  };
+
+  useEffect(() => {
+    localStorage.setItem("storedUsers", JSON.stringify(users));
+  }, [users]);
+
+
+
+
+  const handleNavigateToCreate = () => {
+    navigate("/create");
+  };
 
   // Load or Seed Groups
   useEffect(() => {
@@ -191,9 +225,18 @@ const Dashboard = ({ currentUser, setCurrentUser }) => {
   return (
     <div className="dashboard">
       {renderPath()}
+      <div className="dashboard__add-user-bar">
+        <button className="dashboard__add-user-btn" onClick={() => setShowAddUserModal(true)}>
+          ➕ Add New User
+        </button>
+      </div>
 
       {!previewGroup && !selectedGroup && renderUserTools()}
-
+      <div className="dashboard__create-btn-wrapper">
+        <button className="dashboard__create-btn" onClick={handleNavigateToCreate}>
+          ➕ New Group
+        </button>
+      </div>
       {previewGroup ? (
         <GroupPreview
           group={previewGroup}
@@ -225,6 +268,22 @@ const Dashboard = ({ currentUser, setCurrentUser }) => {
           />
         </>
       )}
+      {showAddUserModal && (
+        <div className="dashboard__modal-overlay">
+          <div className="dashboard__modal">
+            <h3>New User</h3>
+            <input
+              type="text"
+              value={newUserName}
+              onChange={(e) => setNewUserName(e.target.value)}
+              placeholder="Enter user name"
+            />
+            <button onClick={handleAddNewUser}>Add</button>
+            <button className="cancel" onClick={() => setShowAddUserModal(false)}>Cancel</button>
+          </div>
+        </div>
+      )}
+
       {showJoinModal && (
         <div className="dashboard__modal-overlay">
           <div className="dashboard__modal">

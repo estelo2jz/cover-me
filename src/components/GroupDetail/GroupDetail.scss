@@ -148,3 +148,29 @@
     }
   }
 }
+
+.paid-label {
+  color: green;
+  font-weight: bold;
+}
+
+.disabled-label {
+  color: #aaa;
+  font-style: italic;
+}
+
+.pay-btn {
+  background: #5b3cc4;
+  color: white;
+  padding: 0.3rem 0.75rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: #47299b;
+  }
+}
+
