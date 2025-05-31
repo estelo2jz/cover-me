@@ -150,7 +150,7 @@
 
 
 .dashboard {
-  padding: 2rem;
+  // padding: 2rem;
   max-width: 1200px;
   margin: auto;
   animation: fadeIn 0.6s ease-in;
@@ -165,7 +165,7 @@
     }
 
     .dashboard__create-btn {
-      background: linear-gradient(135deg, #5b3cc4, #9c6bff);
+      background-color: #5b3cc4;
       color: white;
       border: none;
       padding: 0.75rem 1.5rem;
