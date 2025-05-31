@@ -1,5 +1,5 @@
 // src/App.jsx
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, Suspense, lazy } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -14,6 +14,9 @@ import Admin from "./pages/Admin";
 import CreateGroupPage from "./pages/CreateGroupPage";
 import GroupDetailWrapper from "./components/GroupDetail/GroupDetailWrapper";
 import Navigation from "./components/Navigation/Navigation";
+import Home from "./pages/Home/Home"; // or adjust if it's elsewhere
+import User from "./pages/User/User"; // adjust path as needed
+
 
 import "./App.scss";
 import "./animations/routeAnimations.scss";
@@ -33,10 +36,20 @@ const AppRoutes = ({ currentUser, setCurrentUser }) => {
       >
         <div ref={nodeRef}>
           <Routes location={location}>
+            <Route path="/" element={<Home />} />
             <Route
-              path="/"
+              path="/dashboard"
               element={
                 <Dashboard
+                  currentUser={currentUser}
+                  setCurrentUser={setCurrentUser}
+                />
+              }
+            />
+            <Route
+              path="/users"
+              element={
+                <User
                   currentUser={currentUser}
                   setCurrentUser={setCurrentUser}
                 />
@@ -60,7 +73,11 @@ const AppRoutes = ({ currentUser, setCurrentUser }) => {
 };
 
 const App = () => {
-  const [currentUser, setCurrentUser] = useState("You");
+const [currentUser, setCurrentUser] = useState(() => {
+  const stored = localStorage.getItem("storedUsers");
+  const users = stored ? JSON.parse(stored) : [];
+  return users[0] || "You"; // fallback
+});
 
   return (
     <Router>

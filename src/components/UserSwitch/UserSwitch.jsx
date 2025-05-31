@@ -6,7 +6,8 @@ import { useNavigate } from "react-router-dom";
 const UserSwitch = ({ users, currentUser, setCurrentUser, getUserStats }) => {
   const navigate = useNavigate();
 
-  const handleProfileView = (user) => {
+  const handleProfileView = (user, e) => {
+    e.stopPropagation(); // prevent parent card click
     setCurrentUser(user);
     navigate(`/profile/${user}`);
   };
@@ -22,10 +23,11 @@ const UserSwitch = ({ users, currentUser, setCurrentUser, getUserStats }) => {
           return (
             <div
               key={user}
-              className={`user-switch__card ${isActive ? "active" : ""}`}
+              className={`dashboard__user-card ${isActive ? "active" : ""}`}
+              onClick={() => setCurrentUser(user)}
             >
               <div className="user-switch__info">
-                <p><strong>{user}</strong></p>
+                <p className="user-switch__name"><strong>{user}</strong></p>
                 <p>{groupCount} groups</p>
                 <p>💰 ${totalTarget}</p>
                 <p>✅ {completed} completed</p>
@@ -33,7 +35,7 @@ const UserSwitch = ({ users, currentUser, setCurrentUser, getUserStats }) => {
 
               <button
                 className="user-switch__view-btn"
-                onClick={() => handleProfileView(user)}
+                onClick={(e) => handleProfileView(user, e)}
               >
                 View Profile
               </button>

@@ -156,3 +156,20 @@
     }
   }
 }
+
+
+.user-switch__view-btn {
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  background: #5b3cc4;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: #47299b;
+  }
+}

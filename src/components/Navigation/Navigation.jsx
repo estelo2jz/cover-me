@@ -43,11 +43,11 @@ const Navigation = ({ currentUser }) => {
           </button> */}
         </div>
 
-        {/* <nav className={`nav__menu ${isOpen ? "open" : ""}`}>
-          <Link to="/" onClick={close}>Home</Link>
-          <Link to="/create" onClick={close}>Create</Link>
-          <Link to="/admin" onClick={close}>Admin</Link>
-        </nav> */}
+        <nav className={`nav__menu ${isOpen ? "open" : ""}`}>
+          <Link to="/dashboard" onClick={close}>Groups</Link>
+          <Link to="/users" onClick={close}>Users</Link>
+          {/* <Link to="/admin" onClick={close}>Admin</Link> */}
+        </nav>
 
         <div className="nav__user">{currentUser}</div>
       </div>

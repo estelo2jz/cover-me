@@ -1,60 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import CreateGroup from "../../components/CreateGroup/CreateGroup";
 import Groups from "../../components/Groups/Groups";
 import GroupPreview from "../../components/Groups/GroupPreview";
 import GroupDetail from "../../components/GroupDetail/GroupDetail";
-import UserSwitch from "../../components/UserSwitch/UserSwitch";
+import User from "../../pages/User/User"; // NEW: user logic separated here
+
 import "./Dashboard.scss";
 
 const Dashboard = ({ currentUser, setCurrentUser }) => {
   const [groups, setGroups] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState(null);
-  const [previewGroup, setPreviewGroup] = useState(null); // ✅ THIS LINE IS REQUIRED
+  const [previewGroup, setPreviewGroup] = useState(null);
   const [filter, setFilter] = useState("all");
-  const navigate = useNavigate();
 
-  // Add these to your Dashboard component state
   const [showJoinModal, setShowJoinModal] = useState(false);
   const [joinedGroup, setJoinedGroup] = useState(null);
 
-  const [showAddUserModal, setShowAddUserModal] = useState(false);
-  const [newUserName, setNewUserName] = useState("");
-
-  const [users, setUsers] = useState(() => {
-    const saved = localStorage.getItem("storedUsers");
-    return saved ? JSON.parse(saved) : [
-      "You", "Alice", "Bob", "Charlie", "Diana", "Ethan", "Frank", "Grace",
-      "Hannah", "Ivan", "Jenny", "Kyle", "Liam", "Mia", "Noah", "Olivia", "Paul",
-      "Quinn", "Riley", "Sophia", "Tyler", "Uma", "Victor", "Telo", "Xavier",
-      "Yara", "Zane"
-    ];
-  });
-
-
-
-  const handleAddNewUser = () => {
-    const trimmed = newUserName.trim();
-    if (!trimmed) return;
-
-    const newList = users.includes(trimmed) ? users : [...users, trimmed];
-    setUsers(newList);
-    localStorage.setItem("storedUsers", JSON.stringify(newList));
-
-    setNewUserName("");
-    setShowAddUserModal(false);
-  };
-
-  useEffect(() => {
-    localStorage.setItem("storedUsers", JSON.stringify(users));
-  }, [users]);
-
-
-
-
-  const handleNavigateToCreate = () => {
-    navigate("/create");
-  };
+  const navigate = useNavigate();
 
   // Load or Seed Groups
   useEffect(() => {
@@ -79,15 +43,14 @@ const Dashboard = ({ currentUser, setCurrentUser }) => {
     }
   }, [currentUser]);
 
-  // Seed default groups
   const seedGroups = (creatorName) => {
     const groupNames = ["Emergency Fund", "Wedding Trip", "Gaming PC Build", "Business Starter", "Car Downpayment"];
-    const userPool = [...users];
+    const users = JSON.parse(localStorage.getItem("storedUsers")) || [];
     const monthsOptions = [6, 9, 12];
     const seeded = groupNames.map((name, i) => {
       const months = monthsOptions[Math.floor(Math.random() * monthsOptions.length)];
       const target = Math.floor(Math.random() * 1000 + 1000);
-      const randomMembers = userPool.sort(() => 0.5 - Math.random()).slice(0, 5);
+      const randomMembers = users.sort(() => 0.5 - Math.random()).slice(0, 5);
       const members = [
         { id: creatorName.toLowerCase(), name: creatorName },
         ...randomMembers.map(n => ({ id: n.toLowerCase(), name: n }))
@@ -118,7 +81,6 @@ const Dashboard = ({ currentUser, setCurrentUser }) => {
     setGroups(seeded);
   };
 
-  // Helpers
   const saveGroups = (updated) => {
     setGroups(updated);
     localStorage.setItem("savingsGroups", JSON.stringify(updated));
@@ -153,13 +115,10 @@ const Dashboard = ({ currentUser, setCurrentUser }) => {
 
       updateGroup(updated);
 
-      // ✅ Trigger modal
       setJoinedGroup(updated);
       setShowJoinModal(true);
     }
   };
-
-
 
   const handleDeleteGroup = (groupId) => {
     saveGroups(groups.filter((g) => g.id !== groupId));
@@ -167,44 +126,15 @@ const Dashboard = ({ currentUser, setCurrentUser }) => {
     setPreviewGroup(null);
   };
 
+  const handleNavigateToCreate = () => {
+    navigate("/create");
+  };
+
   const filteredGroups = groups.filter((g) => {
     if (filter === "active") return g.isActive;
     if (filter === "pending") return !g.isActive;
     return true;
   });
-
-  const getUserStats = (user) => {
-    const stored = JSON.parse(localStorage.getItem("savingsGroups")) || [];
-    const userGroups = stored.filter(g => g.members?.some(m => m.name === user));
-    const totalTarget = userGroups.reduce((sum, g) => sum + g.target, 0);
-    const completed = userGroups.filter(g =>
-      Array.isArray(g.deposits?.[user]) && g.deposits[user].every(Boolean)
-    ).length;
-
-    return {
-      groupCount: userGroups.length,
-      totalTarget: totalTarget.toFixed(2),
-      completed
-    };
-  };
-
-  // UI Views
-  const renderPath = () => (
-    <div className="dashboard__path">
-
-    </div>
-  );
-
-  const renderUserTools = () => (
-    <>
-      <UserSwitch
-        users={users}
-        currentUser={currentUser}
-        setCurrentUser={setCurrentUser}
-        getUserStats={getUserStats}
-      />
-    </>
-  );
 
   const renderGroupFilters = () => (
     <div className="dashboard__filters">
@@ -220,23 +150,14 @@ const Dashboard = ({ currentUser, setCurrentUser }) => {
     </div>
   );
 
-
-
   return (
     <div className="dashboard">
-      {renderPath()}
-      <div className="dashboard__add-user-bar">
-        <button className="dashboard__add-user-btn" onClick={() => setShowAddUserModal(true)}>
-          ➕ Add New User
-        </button>
-      </div>
-
-      {!previewGroup && !selectedGroup && renderUserTools()}
       <div className="dashboard__create-btn-wrapper">
         <button className="dashboard__create-btn" onClick={handleNavigateToCreate}>
           ➕ New Group
         </button>
       </div>
+
       {previewGroup ? (
         <GroupPreview
           group={previewGroup}
@@ -267,21 +188,6 @@ const Dashboard = ({ currentUser, setCurrentUser }) => {
             onPreview={setPreviewGroup}
           />
         </>
-      )}
-      {showAddUserModal && (
-        <div className="dashboard__modal-overlay">
-          <div className="dashboard__modal">
-            <h3>New User</h3>
-            <input
-              type="text"
-              value={newUserName}
-              onChange={(e) => setNewUserName(e.target.value)}
-              placeholder="Enter user name"
-            />
-            <button onClick={handleAddNewUser}>Add</button>
-            <button className="cancel" onClick={() => setShowAddUserModal(false)}>Cancel</button>
-          </div>
-        </div>
       )}
 
       {showJoinModal && (
@@ -316,7 +222,6 @@ const Dashboard = ({ currentUser, setCurrentUser }) => {
           </div>
         </div>
       )}
-
     </div>
   );
 };

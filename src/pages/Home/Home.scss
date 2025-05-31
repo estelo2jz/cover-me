@@ -1,0 +1,138 @@
+// src/pages/Home/Home.scss
+
+.home {
+  padding: 2rem;
+
+  &__hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-bottom: 3rem;
+
+    .home__text {
+      flex: 1;
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: #5b3cc4;
+      }
+
+      p {
+        font-size: 1.1rem;
+        color: #555;
+        margin-bottom: 1.5rem;
+      }
+
+      button {
+        background: #5b3cc4;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s ease;
+
+        &:hover {
+          background: #47299b;
+        }
+      }
+    }
+
+    .home__image {
+      flex: 1;
+      text-align: center;
+
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+    }
+  }
+
+  &__stats {
+    text-align: center;
+    margin-bottom: 3rem;
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    &-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+
+      .stat-card {
+        background: #fff;
+        padding: 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        text-align: center;
+
+        &:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-icon {
+          font-size: 2rem;
+          margin-bottom: 0.5rem;
+        }
+
+        strong {
+          font-size: 1.6rem;
+          display: block;
+          color: #5b3cc4;
+        }
+
+        p {
+          font-size: 0.95rem;
+          color: #666;
+        }
+      }
+    }
+  }
+
+  &__testimonials {
+    text-align: center;
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    &-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+
+      .testimonial {
+        background: #f5f3ff;
+        padding: 1.25rem;
+        border-radius: 10px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.04);
+
+        p {
+          font-style: italic;
+          color: #444;
+        }
+
+        strong {
+          display: block;
+          margin-top: 0.75rem;
+          color: #5b3cc4;
+        }
+      }
+    }
+  }
+}
