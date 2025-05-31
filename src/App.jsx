@@ -15,6 +15,7 @@ import CreateGroupPage from "./pages/CreateGroupPage";
 import GroupDetailWrapper from "./components/GroupDetail/GroupDetailWrapper";
 import Navigation from "./components/Navigation/Navigation";
 import Footer from "./pages/Footer/Footer";
+import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import Home from "./pages/Home/Home"; // or adjust if it's elsewhere
 import User from "./pages/User/User"; // adjust path as needed
 
@@ -74,14 +75,15 @@ const AppRoutes = ({ currentUser, setCurrentUser }) => {
 };
 
 const App = () => {
-const [currentUser, setCurrentUser] = useState(() => {
-  const stored = localStorage.getItem("storedUsers");
-  const users = stored ? JSON.parse(stored) : [];
-  return users[0] || "You"; // fallback
-});
+  const [currentUser, setCurrentUser] = useState(() => {
+    const stored = localStorage.getItem("storedUsers");
+    const users = stored ? JSON.parse(stored) : [];
+    return users[0] || "You"; // fallback
+  });
 
   return (
     <Router>
+      <ScrollToTop />
       <div className="app">
         <Navigation currentUser={currentUser} />
         <main className="app__main">
