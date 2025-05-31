@@ -91,3 +91,12 @@ body {
 }
 
 // Card Animation Delay
+
+
+.dashboard__user-card.selected {
+  border: 2px solid #5b3cc4;
+  background-color: #f2edfd;
+  transform: scale(1.03);
+  box-shadow: 0 0 10px rgba(91, 60, 196, 0.2);
+  transition: all 0.3s ease;
+}

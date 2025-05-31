@@ -3,7 +3,14 @@ import React from "react";
 import "./UserSwitch.scss";
 import { useNavigate } from "react-router-dom";
 
-const UserSwitch = ({ users, currentUser, setCurrentUser, getUserStats }) => {
+const UserSwitch = ({
+  users,
+  currentUser,
+  selectedUser,
+  setCurrentUser,
+  getUserStats,
+  onUserClick
+}) => {
   const navigate = useNavigate();
 
   const handleProfileView = (user, e) => {
@@ -22,9 +29,9 @@ const UserSwitch = ({ users, currentUser, setCurrentUser, getUserStats }) => {
           return (
             <div
               key={user}
-              className={`dashboard__user-card fade-in-user ${isActive ? "active" : ""}`}
-              style={{ animationDelay: `${i * 80}ms` }}
-              onClick={() => setCurrentUser(user)}
+              className={`dashboard__user-card ${user === currentUser ? "active" : ""
+                } ${user === selectedUser ? "selected" : ""}`}
+              onClick={() => onUserClick(user)}
             >
               <div className="user-switch__info">
                 <p className="user-switch__name"><strong>{user}</strong></p>

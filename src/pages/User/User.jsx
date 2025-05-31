@@ -9,16 +9,17 @@ export default function User({ currentUser, setCurrentUser }) {
     return saved
       ? JSON.parse(saved)
       : [
-          "Alice", "Bob", "Charlie", "Diana", "Ethan", "Frank", "Grace",
-          "Hannah", "Ivan", "Jenny", "Kyle", "Liam", "Mia", "Noah", "Olivia", "Paul",
-          "Quinn", "Riley", "Sophia", "Tyler", "Uma", "Victor", "Telo", "Xavier",
-          "Yara", "Zane"
-        ];
+        "Alice", "Bob", "Charlie", "Diana", "Ethan", "Frank", "Grace",
+        "Hannah", "Ivan", "Jenny", "Kyle", "Liam", "Mia", "Noah", "Olivia", "Paul",
+        "Quinn", "Riley", "Sophia", "Tyler", "Uma", "Victor", "Telo", "Xavier",
+        "Yara", "Zane"
+      ];
   });
 
   const [showAddUserModal, setShowAddUserModal] = useState(false);
   const [newUserName, setNewUserName] = useState("");
   const [animatedUsers, setAnimatedUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState("");
 
   const navigate = useNavigate();
 
@@ -83,6 +84,8 @@ export default function User({ currentUser, setCurrentUser }) {
 
   const handleUserClick = (userName) => {
     navigate(`/profile/${userName}`);
+    setCurrentUser(userName);
+    setSelectedUser(userName); // new selected logic
   };
 
   return (
@@ -96,6 +99,7 @@ export default function User({ currentUser, setCurrentUser }) {
       <UserSwitch
         users={animatedUsers}
         currentUser={currentUser}
+        selectedUser={selectedUser}
         setCurrentUser={setCurrentUser}
         getUserStats={getUserStats}
         onUserClick={handleUserClick}
