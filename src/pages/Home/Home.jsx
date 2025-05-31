@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import "./Home.scss";
+import CoverMee from "../../assets/covermee_no_bg.png"
 
 const testimonials = [
   {
@@ -54,7 +55,7 @@ const Home = () => {
           <button onClick={() => navigate("/dashboard")}>Get Started</button>
         </div>
         <div className="home__image" data-aos="fade-left">
-          <img src="/assets/savings_hero.svg" alt="Hero Illustration" />
+          <img src={CoverMee} alt="Hero Illustration" />
         </div>
       </header>
 

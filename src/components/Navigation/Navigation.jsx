@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./Navigation.scss";
-import CoverMe from "../../assets/covermee.png";
+import CoverMe from "../../assets/covermee_no_bg.png";
 
 const Navigation = ({ currentUser }) => {
   const [isOpen, setIsOpen] = useState(false);
