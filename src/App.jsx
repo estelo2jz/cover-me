@@ -14,6 +14,7 @@ import Admin from "./pages/Admin";
 import CreateGroupPage from "./pages/CreateGroupPage";
 import GroupDetailWrapper from "./components/GroupDetail/GroupDetailWrapper";
 import Navigation from "./components/Navigation/Navigation";
+import Footer from "./pages/Footer/Footer";
 import Home from "./pages/Home/Home"; // or adjust if it's elsewhere
 import User from "./pages/User/User"; // adjust path as needed
 
@@ -90,6 +91,7 @@ const [currentUser, setCurrentUser] = useState(() => {
           />
         </main>
       </div>
+      <Footer />
     </Router>
   );
 };

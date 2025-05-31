@@ -50,7 +50,7 @@ const Home = () => {
     <div className="home">
       <header className="home__hero">
         <div className="home__text" data-aos="fade-right">
-          <h1>Save Smarter. Together.</h1>
+          <h1>Save smarter together with CoverMee</h1>
           <p>Join saving groups and reach your financial goals faster with the power of community.</p>
           <button onClick={() => navigate("/dashboard")}>Get Started</button>
         </div>

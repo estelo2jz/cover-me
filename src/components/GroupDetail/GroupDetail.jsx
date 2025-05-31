@@ -1,4 +1,3 @@
-// src/components/GroupDetail/GroupDetail.jsx
 import React, { useState } from "react";
 import {
   BarChart,
@@ -13,6 +12,7 @@ import "./GroupDetail.scss";
 
 const GroupDetail = ({ group, currentUser, onBack, onUpdate, onDelete }) => {
   const [commentText, setCommentText] = useState("");
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const handleDeposit = (monthIndex) => {
     const updated = { ...group };
@@ -33,6 +33,19 @@ const GroupDetail = ({ group, currentUser, onBack, onUpdate, onDelete }) => {
     setCommentText("");
   };
 
+  const handleConfirmOptOut = () => {
+    const updated = { ...group };
+    updated.members = updated.members.filter(m => m.name !== currentUser);
+    delete updated.deposits[currentUser];
+    updated.isActive = updated.members.length === group.memberLimit;
+    updated.monthlyPerUser = updated.isActive
+      ? parseFloat((updated.target / updated.months / updated.memberLimit).toFixed(2))
+      : 0;
+    onUpdate(updated);
+    setShowConfirm(false);
+    onBack();
+  };
+
   const chartData = group.members.map((member) => {
     const name = member.name;
     const paidMonths = group.deposits?.[name]?.filter(Boolean).length || 0;
@@ -43,6 +56,8 @@ const GroupDetail = ({ group, currentUser, onBack, onUpdate, onDelete }) => {
     };
   });
 
+  const pendingReason = `Waiting for ${group.memberLimit - group.members.length} more member(s) to join.`;
+
   return (
     <div className="group-detail">
       <div className="group-detail__header">
@@ -50,7 +65,7 @@ const GroupDetail = ({ group, currentUser, onBack, onUpdate, onDelete }) => {
         <div>
           <h2>{group.name}</h2>
           <p className={`group-detail__status ${group.isActive ? "active" : "pending"}`}>
-            {group.isActive ? "🟢 Active" : "🕓 Pending"}
+            {group.isActive ? "🟢 Active" : `🕓 Pending - ${pendingReason}`}
           </p>
         </div>
       </div>
@@ -62,6 +77,19 @@ const GroupDetail = ({ group, currentUser, onBack, onUpdate, onDelete }) => {
           <p><strong>Duration:</strong> {group.months} months</p>
           <p><strong>Monthly/User:</strong> ${group.monthlyPerUser.toFixed(2)}</p>
           <p><strong>Member Limit:</strong> {group.memberLimit}</p>
+
+          {!group.isActive && group.members.some(m => m.name === currentUser) && (
+            <button className="opt-out-btn" onClick={() => setShowConfirm(true)}>
+              ❌ Opt Out of Group
+            </button>
+          )}
+
+          <h4>Current Members:</h4>
+          <ul>
+            {group.members.map((m, i) => (
+              <li key={i}>👤 {m.name}</li>
+            ))}
+          </ul>
         </div>
 
         <div className="group-detail__chart-box">
@@ -86,10 +114,7 @@ const GroupDetail = ({ group, currentUser, onBack, onUpdate, onDelete }) => {
             {paid ? (
               <span className="paid-label">✅ Complete</span>
             ) : group.isActive ? (
-              <button
-                onClick={() => handleDeposit(idx)}
-                className="pay-btn"
-              >
+              <button onClick={() => handleDeposit(idx)} className="pay-btn">
                 Mark as Paid
               </button>
             ) : (
@@ -98,7 +123,6 @@ const GroupDetail = ({ group, currentUser, onBack, onUpdate, onDelete }) => {
           </li>
         ))}
       </ul>
-
 
       <div className="group-detail__section">
         <h3>Comments</h3>
@@ -126,6 +150,19 @@ const GroupDetail = ({ group, currentUser, onBack, onUpdate, onDelete }) => {
           <button type="submit">Post</button>
         </form>
       </div>
+
+      {showConfirm && (
+        <div className="group-detail__modal-overlay">
+          <div className="group-detail__modal">
+            <h3>Leave Group?</h3>
+            <p>You are about to opt out of <strong>{group.name}</strong>.</p>
+            <div className="group-detail__modal-buttons">
+              <button className="confirm-btn" onClick={handleConfirmOptOut}>Yes, Opt Out</button>
+              <button className="cancel-btn" onClick={() => setShowConfirm(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
