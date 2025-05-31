@@ -169,3 +169,107 @@
     transform: translateY(0);
   }
 }
+
+
+@media (max-width: 768px) {
+  .home {
+    padding: 1rem;
+
+    &__hero {
+      flex-direction: column;
+      text-align: center;
+
+      .home__text {
+        h1 {
+          font-size: 2rem;
+        }
+
+        p {
+          font-size: 1rem;
+        }
+
+        button {
+          width: 100%;
+          font-size: 1rem;
+          padding: 0.75rem;
+        }
+      }
+
+      .home__image {
+        img {
+          max-width: 100%;
+          height: auto;
+        }
+      }
+    }
+
+    &__stats {
+      h2 {
+        font-size: 1.6rem;
+      }
+
+      &-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+
+        .stat-card {
+          padding: 1.2rem;
+
+          .stat-icon {
+            font-size: 1.8rem;
+          }
+
+          strong {
+            font-size: 1.4rem;
+          }
+
+          p {
+            font-size: 0.9rem;
+          }
+        }
+      }
+    }
+
+    &__testimonials {
+      h2 {
+        font-size: 1.6rem;
+      }
+
+      &-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+
+        .testimonial {
+          padding: 1rem;
+
+          p {
+            font-size: 0.95rem;
+          }
+
+          strong {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .home__hero .home__text h1 {
+    font-size: 1.6rem;
+  }
+
+  .home__hero .home__text p {
+    font-size: 0.95rem;
+  }
+
+  .home__hero .home__text button {
+    font-size: 0.95rem;
+  }
+
+  .home__stats h2,
+  .home__testimonials h2 {
+    font-size: 1.4rem;
+  }
+}
