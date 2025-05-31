@@ -1,145 +1,120 @@
 .nav {
-  transition: transform 0.3s ease;
-  transform: translateY(0);
-
-  &.nav--hidden {
-    transform: translateY(-100%);
-  }
-
-  // Keep rest of the styling here...
-}
-
-
-.nav {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  padding: 1rem 2rem;
   position: sticky;
   top: 0;
   z-index: 1000;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease-in-out;
+  font-family: "Segoe UI", sans-serif;
 
-  .nav__wrapper {
+  &--hidden {
+    transform: translateY(-100%);
+  }
+
+  &__wrapper {
     max-width: 1200px;
     margin: 0 auto;
+    padding: 0.75rem 1.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
   }
 
-  .nav__left {
+  &__left {
     display: flex;
     align-items: center;
     gap: 1rem;
-  }
 
-  .nav__logo {
-    height: 80px;
-    width: auto;
-    object-fit: contain;
-    border-radius: 10%;
-  }
+    .nav__logo {
+      height: 40px;
+      object-fit: contain;
+      transition: transform 0.3s ease;
 
-  .nav__hamburger {
-    display: none;
-    flex-direction: column;
-    gap: 4px;
-    width: 24px;
-    height: 20px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-
-    span {
-      display: block;
-      height: 2px;
-      background: #5b3cc4;
-      border-radius: 2px;
-      transition: 0.3s ease;
-    }
-
-    &.open span:nth-child(1) {
-      transform: rotate(45deg) translateY(6px);
-    }
-
-    &.open span:nth-child(2) {
-      opacity: 0;
-    }
-
-    &.open span:nth-child(3) {
-      transform: rotate(-45deg) translateY(-6px);
+      &:hover {
+        transform: scale(1.05);
+      }
     }
   }
 
-  .nav__menu {
+  &__menu {
     display: flex;
     gap: 1.5rem;
 
     a {
       text-decoration: none;
-      font-weight: 500;
       color: #333;
+      font-weight: 500;
+      position: relative;
+      padding: 0.25rem 0;
+      transition: color 0.2s ease;
 
       &:hover {
         color: #5b3cc4;
       }
 
-      &.active {
-        color: #5b3cc4;
-        text-decoration: underline;
+      &::after {
+        content: "";
+        position: absolute;
+        width: 0%;
+        height: 2px;
+        background-color: #5b3cc4;
+        bottom: 0;
+        left: 0;
+        transition: width 0.3s ease;
+      }
+
+      &:hover::after {
+        width: 100%;
       }
     }
+
+    &.open {
+      display: flex;
+    }
+  }
+
+  &__user {
+    background-color: #5b3cc4;
+    color: #fff;
+    padding: 0.4rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    text-transform: capitalize;
+    transition: background 0.3s ease;
+    cursor: default;
+
+    &:hover {
+      background-color: #40259c;
+    }
+  }
+}
+
+// Mobile-friendly (optional)
+@media (max-width: 768px) {
+  .nav__menu {
+    gap: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .nav__wrapper {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .nav__user {
-    font-size: 0.9rem;
-    font-weight: bold;
-    color: #444;
+    margin-top: 0.5rem;
   }
+}
 
-  // 🔽 Mobile Layout
-  @media (max-width: 768px) {
-    .nav__hamburger {
-      display: flex;
-    }
 
-    .nav__menu {
-      display: none;
-      flex-direction: column;
-      width: 100%;
-      background: #ffffff;
-      padding: 1rem 0;
-      margin-top: 1rem;
-      border-top: 1px solid #eee;
+.nav__menu a.active {
+  color: #5b3cc4;
+  font-weight: 700;
+}
 
-      &.open {
-        display: flex;
-      }
-
-      a {
-        padding: 0.75rem 1rem;
-        color: #333;
-      }
-    }
-
-    .nav__user {
-      width: 100%;
-      text-align: right;
-      font-size: 0.85rem;
-      margin-top: 0.5rem;
-    }
-
-    .nav__left {
-      flex: 1;
-      justify-content: space-between;
-      width: 100%;
-    }
-
-    .nav__wrapper {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  }
+.nav__menu a.active::after {
+  width: 100%;
 }

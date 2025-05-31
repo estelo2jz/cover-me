@@ -1,176 +1,210 @@
 .group-detail {
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 2rem;
-  max-width: 1000px;
-  margin: auto;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+  animation: fadeInUp 0.6s ease;
 
   &__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 1rem;
+    background: #fff;
+    border-radius: 1.25rem;
+    padding: 1rem 1.5rem;
     margin-bottom: 2rem;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
 
     h2 {
       margin: 0;
-      color: #5b3cc4;
+      font-size: 1.75rem;
     }
 
-    & .group-detail__status {
-      font-size: 0.95rem;
+    p {
       font-weight: bold;
-
-      &.active {
-        color: green;
-      }
-
-      &.pending {
-        color: #888;
-      }
     }
   }
 
   &__back {
     background: none;
     border: none;
-    color: #5b3cc4;
-    font-weight: bold;
+    font-size: 1rem;
+    color: #555;
     cursor: pointer;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: translateX(-4px);
+      color: #222;
+    }
+  }
+
+  &__status {
+    &.active {
+      color: green;
+    }
+
+    &.pending {
+      color: orange;
+    }
   }
 
   &__grid {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 1fr;
     gap: 2rem;
     margin-bottom: 2rem;
-
-    @media (max-width: 768px) {
-      grid-template-columns: 1fr;
-    }
   }
 
-  &__info {
-    background: #f9f9f9;
-    padding: 1.2rem;
-    border-radius: 8px;
+  &__info,
+  &__chart-box {
+    background: #fff;
+    border-radius: 1.25rem;
+    padding: 1.5rem;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
 
     h3 {
-      margin-top: 0;
-      color: #333;
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
     }
 
     p {
-      margin: 0.4rem 0;
-      font-size: 0.95rem;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      color: #444;
     }
-  }
-
-  &__chart-box {
-    background: #fafafa;
-    padding: 1rem;
-    border-radius: 8px;
-  }
-
-  &__section {
-    margin-top: 2rem;
   }
 
   &__deposits {
     list-style: none;
     padding: 0;
-    margin-top: 1rem;
+    margin-bottom: 2rem;
 
-    .group-detail__deposit-item {
+    li {
+      background: #fff;
+      padding: 1rem 1.5rem;
+      margin-bottom: 0.75rem;
+      border-radius: 1rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 0.6rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: scale(1.01);
+      }
+    }
+
+    .pay-btn {
+      background: #5b3cc4;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.75rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+
+      &:hover {
+        background: #4529a4;
+      }
+    }
+
+    .paid-label {
+      color: green;
+      font-weight: bold;
+    }
+
+    .disabled-label {
+      color: #aaa;
+      font-style: italic;
     }
   }
 
-  &__pay-btn {
-    background: #5b3cc4;
-    color: white;
-    padding: 0.3rem 0.9rem;
-    border: none;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    font-weight: bold;
-    cursor: pointer;
-
-    &:hover {
-      background: #3e2ca1;
-    }
-  }
-
-  &__complete {
-    color: green;
-    font-weight: bold;
+  &__section {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 1.25rem;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+    animation: fadeInUp 0.8s ease;
   }
 
   &__comments {
-    margin-top: 1rem;
+    max-height: 250px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+    padding-right: 0.5rem;
 
-    .group-detail__comment {
-      background: #f3f3f3;
-      padding: 0.75rem;
-      border-radius: 6px;
-      margin-bottom: 0.5rem;
-      font-size: 0.9rem;
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 3px;
+    }
+  }
+
+  &__comment {
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    background: #f7f7f7;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: #eee;
     }
   }
 
   &__form {
-    margin-top: 1rem;
     display: flex;
-    gap: 0.5rem;
+    gap: 1rem;
 
     input {
       flex: 1;
-      padding: 0.5rem;
+      padding: 0.6rem 1rem;
       border: 1px solid #ccc;
-      border-radius: 6px;
+      border-radius: 0.75rem;
+      transition: border 0.2s;
+
+      &:focus {
+        outline: none;
+        border-color: #5b3cc4;
+      }
     }
 
     button {
-      padding: 0.5rem 1rem;
+      padding: 0.6rem 1.2rem;
+      border: none;
       background: #5b3cc4;
       color: white;
-      border: none;
-      border-radius: 6px;
+      border-radius: 0.75rem;
       cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
 
       &:hover {
-        background: #3e2ca1;
+        background: #40259c;
       }
     }
   }
 }
 
-.paid-label {
-  color: green;
-  font-weight: bold;
-}
-
-.disabled-label {
-  color: #aaa;
-  font-style: italic;
-}
-
-.pay-btn {
-  background: #5b3cc4;
-  color: white;
-  padding: 0.3rem 0.75rem;
-  border: none;
-  border-radius: 6px;
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: background 0.3s ease;
-
-  &:hover {
-    background: #47299b;
+// Animation
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
-
