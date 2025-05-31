@@ -40,12 +40,12 @@ const UserSwitch = ({
                 <p>✅ {completed} completed</p>
               </div>
 
-              <button
+              {/* <button
                 className="user-switch__view-btn"
                 onClick={(e) => handleProfileView(user, e)}
               >
                 View Profile
-              </button>
+              </button> */}
             </div>
           );
         })}
