@@ -14,7 +14,6 @@ const UserSwitch = ({ users, currentUser, setCurrentUser, getUserStats }) => {
 
   return (
     <div className="user-switch">
-      <p><strong>Simulate User:</strong></p>
       <div className="user-switch__grid">
         {users.map((user) => {
           const isActive = user === currentUser;

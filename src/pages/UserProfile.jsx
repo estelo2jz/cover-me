@@ -7,13 +7,18 @@ const UserProfile = () => {
   const { user } = useParams();
   const navigate = useNavigate();
   const [userGroups, setUserGroups] = useState([]);
+  const [createdGroups, setCreatedGroups] = useState([]);
 
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem("savingsGroups")) || [];
-    const filtered = stored.filter((g) =>
+
+    const joined = stored.filter((g) =>
       g.members?.some((m) => m.name === user)
     );
-    setUserGroups(filtered);
+    const created = stored.filter((g) => g.creator === user);
+
+    setUserGroups(joined);
+    setCreatedGroups(created);
   }, [user]);
 
   const totalTarget = userGroups.reduce((sum, g) => sum + g.target, 0);
@@ -30,6 +35,7 @@ const UserProfile = () => {
         <div>
           <h2>{user}</h2>
           <p>Groups Joined: {userGroups.length}</p>
+          <p>Groups Created: {createdGroups.length}</p>
           <p>Total Target: ${totalTarget.toFixed(2)}</p>
           <p>Completed Groups: {completed}</p>
         </div>
@@ -43,6 +49,7 @@ const UserProfile = () => {
           userGroups.map((group) => {
             const paid = group.deposits?.[user]?.filter(Boolean).length || 0;
             const progress = Math.round((paid / group.months) * 100);
+            const isCreator = group.creator === user;
 
             return (
               <div
@@ -51,6 +58,7 @@ const UserProfile = () => {
                 onClick={() => navigate(`/group/${group.id}`)}
               >
                 <h4>{group.name}</h4>
+                {isCreator && <span className="creator-label">Created by you</span>}
                 <p>Status: {group.isActive ? "🟢 Active" : "🕓 Pending"}</p>
                 <p>Target: ${group.target}</p>
                 <p>Months: {group.months}</p>

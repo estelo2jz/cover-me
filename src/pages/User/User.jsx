@@ -6,12 +6,14 @@ import "./User.scss";
 export default function User({ currentUser, setCurrentUser }) {
   const [users, setUsers] = useState(() => {
     const saved = localStorage.getItem("storedUsers");
-    return saved ? JSON.parse(saved) : [
-      "You", "Alice", "Bob", "Charlie", "Diana", "Ethan", "Frank", "Grace",
-      "Hannah", "Ivan", "Jenny", "Kyle", "Liam", "Mia", "Noah", "Olivia", "Paul",
-      "Quinn", "Riley", "Sophia", "Tyler", "Uma", "Victor", "Telo", "Xavier",
-      "Yara", "Zane"
-    ];
+    return saved
+      ? JSON.parse(saved)
+      : [
+          "You", "Alice", "Bob", "Charlie", "Diana", "Ethan", "Frank", "Grace",
+          "Hannah", "Ivan", "Jenny", "Kyle", "Liam", "Mia", "Noah", "Olivia", "Paul",
+          "Quinn", "Riley", "Sophia", "Tyler", "Uma", "Victor", "Telo", "Xavier",
+          "Yara", "Zane"
+        ];
   });
 
   const [showAddUserModal, setShowAddUserModal] = useState(false);
@@ -30,23 +32,29 @@ export default function User({ currentUser, setCurrentUser }) {
     localStorage.setItem("storedUsers", JSON.stringify(users));
   }, [users]);
 
-  // Animate each user into view one-by-one
   useEffect(() => {
     let i = 0;
-    setAnimatedUsers([]); // reset on user change
+    setAnimatedUsers([]);
     const interval = setInterval(() => {
-      setAnimatedUsers(prev => [...prev, users[i]]);
-      i++;
-      if (i === users.length) clearInterval(interval);
+      setAnimatedUsers((prev) => {
+        if (i < users.length) {
+          const updated = [...prev, users[i]];
+          i++;
+          return updated;
+        } else {
+          clearInterval(interval);
+          return prev;
+        }
+      });
     }, 80);
     return () => clearInterval(interval);
   }, [users]);
 
   const handleAddNewUser = () => {
     const trimmed = newUserName.trim();
-    if (!trimmed) return;
+    if (!trimmed || users.includes(trimmed)) return;
 
-    const newList = users.includes(trimmed) ? users : [...users, trimmed];
+    const newList = [...users, trimmed];
     setUsers(newList);
     localStorage.setItem("storedUsers", JSON.stringify(newList));
 
@@ -60,16 +68,16 @@ export default function User({ currentUser, setCurrentUser }) {
 
   const getUserStats = (user) => {
     const stored = JSON.parse(localStorage.getItem("savingsGroups")) || [];
-    const userGroups = stored.filter(g => g.members?.some(m => m.name === user));
+    const userGroups = stored.filter((g) => g.members?.some((m) => m.name === user));
     const totalTarget = userGroups.reduce((sum, g) => sum + g.target, 0);
-    const completed = userGroups.filter(g =>
-      Array.isArray(g.deposits?.[user]) && g.deposits[user].every(Boolean)
+    const completed = userGroups.filter(
+      (g) => Array.isArray(g.deposits?.[user]) && g.deposits[user].every(Boolean)
     ).length;
 
     return {
       groupCount: userGroups.length,
       totalTarget: totalTarget.toFixed(2),
-      completed
+      completed,
     };
   };
 

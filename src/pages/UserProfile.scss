@@ -101,3 +101,86 @@
     transform: translateY(0);
   }
 }
+
+.creator-label {
+  display: inline-block;
+  margin-bottom: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  background: #d8caff;
+  color: #5b3cc4;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+
+// src/components/UserSwitch/UserSwitch.scss
+
+.user-switch {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+
+  .user-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .user-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #5b3cc4;
+      color: white;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      font-weight: bold;
+    }
+
+    h4 {
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+      color: #333;
+    }
+
+    p {
+      font-size: 0.95rem;
+      margin: 0.25rem 0;
+      color: #555;
+    }
+
+    .view-profile {
+      margin-top: 1rem;
+      display: inline-block;
+      background: #5b3cc4;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: background 0.3s ease;
+
+      &:hover {
+        background: #47299b;
+      }
+    }
+
+    &.active-user {
+      border: 2px solid #5b3cc4;
+    }
+  }
+}
