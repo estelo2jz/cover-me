@@ -133,3 +133,44 @@ body {
     }
   }
 }
+
+
+.dashboard__add-user-bar {
+  display: flex;
+  justify-content: flex-end;
+  margin: 2rem 0;
+  padding: 0px 10px;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
+
+  .dashboard__add-user-btn {
+    background-color: #5b3cc4;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background-color: #47299b;
+    }
+
+    @media (max-width: 768px) {
+      width: 100%;
+      max-width: 320px;
+      padding: 0.7rem 1.2rem;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 480px) {
+      max-width: 100%;
+      padding: 0.65rem 1rem;
+      font-size: 0.9rem;
+    }
+  }
+}

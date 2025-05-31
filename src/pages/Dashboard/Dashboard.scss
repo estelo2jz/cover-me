@@ -366,3 +366,52 @@
     transform: translateY(0);
   }
 }
+
+
+
+.dashboard {
+  // ... existing styles
+
+  &__create-btn-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+    padding: 0px 10px;
+
+    @media (max-width: 768px) {
+      justify-content: center;
+    }
+
+    .dashboard__create-btn {
+      background-color: #5b3cc4;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(91, 60, 196, 0.3);
+      }
+
+      @media (max-width: 768px) {
+        width: 100%;
+        max-width: 320px;
+        font-size: 0.95rem;
+        padding: 0.7rem 1.2rem;
+      }
+
+      @media (max-width: 480px) {
+        max-width: 100%;
+        font-size: 0.9rem;
+        padding: 0.65rem 1rem;
+      }
+    }
+  }
+
+  // ...rest of your SCSS
+}
