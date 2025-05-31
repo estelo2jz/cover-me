@@ -1,12 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
 .nav {
+  width: 100%;
   position: sticky;
   top: 0;
   z-index: 1000;
-  width: 100%;
-  background-color: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  transition: transform 0.3s ease-in-out;
-  font-family: "Segoe UI", sans-serif;
+  background: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+  font-family: 'Inter', sans-serif;
 
   &--hidden {
     transform: translateY(-100%);
@@ -14,26 +16,20 @@
 
   &__wrapper {
     max-width: 1200px;
-    margin: 0 auto;
-    padding: 0.75rem 1.5rem;
+    margin: auto;
+    padding: 1rem 2rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
   }
 
   &__left {
     display: flex;
     align-items: center;
-    gap: 1rem;
 
     .nav__logo {
       height: 40px;
-      object-fit: contain;
-      transition: transform 0.3s ease;
-
-      &:hover {
-        transform: scale(1.05);
-      }
     }
   }
 
@@ -43,78 +39,101 @@
 
     a {
       text-decoration: none;
-      color: #333;
+      color: #444;
       font-weight: 500;
-      position: relative;
-      padding: 0.25rem 0;
-      transition: color 0.2s ease;
+      transition: color 0.3s ease;
 
+      &.active,
       &:hover {
         color: #5b3cc4;
-      }
-
-      &::after {
-        content: "";
-        position: absolute;
-        width: 0%;
-        height: 2px;
-        background-color: #5b3cc4;
-        bottom: 0;
-        left: 0;
-        transition: width 0.3s ease;
-      }
-
-      &:hover::after {
-        width: 100%;
       }
     }
 
     &.open {
       display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 70px;
+      left: 0;
+      right: 0;
+      background: #fff;
+      padding: 1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     }
   }
 
-  &__user {
-    background-color: #5b3cc4;
-    color: #fff;
-    padding: 0.4rem 0.75rem;
-    border-radius: 50px;
-    font-size: 0.9rem;
-    font-weight: bold;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    text-transform: capitalize;
-    transition: background 0.3s ease;
-    cursor: default;
-
-    &:hover {
-      background-color: #40259c;
-    }
-  }
-}
-
-// Mobile-friendly (optional)
-@media (max-width: 768px) {
-  .nav__menu {
+  &__right {
+    display: flex;
+    align-items: center;
     gap: 1rem;
-    font-size: 0.9rem;
+
+    .nav__user {
+      padding: 0.5rem 1rem;
+      background: #5b3cc4;
+      color: #fff;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.3s ease;
+
+      &:hover {
+        background: #47299b;
+      }
+    }
+
+    .nav__toggle {
+      display: none;
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
   }
 
-  .nav__wrapper {
-    flex-direction: column;
-    align-items: flex-start;
+  @media (max-width: 768px) {
+    &__menu {
+      display: none;
+    }
+
+    &__right {
+      .nav__toggle {
+        display: block;
+      }
+    }
+  }
+}
+
+.nav__menu a,
+.nav__user {
+  position: relative;
+  color: #444;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.4rem 0.6rem;
+  transition: color 0.3s ease;
+
+  &.active {
+    color: #5b3cc4;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #5b3cc4;
+      border-radius: 2px;
+    }
   }
 
-  .nav__user {
-    margin-top: 0.5rem;
+  &:hover {
+    color: #5b3cc4;
+  }
+  &.active::after {
+    transition: all 0.3s ease;
+    width: 100%;
   }
 }
 
 
-.nav__menu a.active {
-  color: #5b3cc4;
-  font-weight: 700;
-}
-
-.nav__menu a.active::after {
-  width: 100%;
-}

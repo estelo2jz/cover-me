@@ -15,14 +15,15 @@ const UserSwitch = ({ users, currentUser, setCurrentUser, getUserStats }) => {
   return (
     <div className="user-switch">
       <div className="user-switch__grid">
-        {users.map((user) => {
+        {users.map((user, i) => {
           const isActive = user === currentUser;
           const { groupCount, totalTarget, completed } = getUserStats(user);
 
           return (
             <div
               key={user}
-              className={`dashboard__user-card ${isActive ? "active" : ""}`}
+              className={`dashboard__user-card fade-in-user ${isActive ? "active" : ""}`}
+              style={{ animationDelay: `${i * 80}ms` }}
               onClick={() => setCurrentUser(user)}
             >
               <div className="user-switch__info">
@@ -43,6 +44,7 @@ const UserSwitch = ({ users, currentUser, setCurrentUser, getUserStats }) => {
         })}
       </div>
     </div>
+
   );
 };
 

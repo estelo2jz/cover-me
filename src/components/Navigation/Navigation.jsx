@@ -36,17 +36,32 @@ const Navigation = ({ currentUser }) => {
         </div>
 
         <nav className={`nav__menu ${isOpen ? "open" : ""}`}>
-          <Link to="/dashboard" onClick={close} className={isActive("/dashboard") ? "active" : ""}>
+          <Link
+            to="/dashboard"
+            onClick={close}
+            className={isActive("/dashboard") ? "active" : ""}
+          >
             Groups
           </Link>
-          <Link to="/users" onClick={close} className={isActive("/users") ? "active" : ""}>
+          <Link
+            to="/users"
+            onClick={close}
+            className={isActive("/users") ? "active" : ""}
+          >
             Users
           </Link>
         </nav>
 
-        <Link to={`/profile/${currentUser}`} className="nav__user">
-          {currentUser}
-        </Link>
+
+
+        <div className="nav__right">
+          <Link to={`/profile/${currentUser}`} className="nav__user">
+            {currentUser}
+          </Link>
+          <button className="nav__toggle" onClick={toggle}>
+            ☰
+          </button>
+        </div>
       </div>
     </header>
   );
