@@ -1,3 +1,154 @@
+// .dashboard {
+//   padding: 2rem;
+//   max-width: 1200px;
+//   margin: auto;
+//   animation: fadeIn 0.6s ease-in;
+
+//   &__create-btn-wrapper {
+//     display: flex;
+//     justify-content: flex-end;
+//     margin-bottom: 1rem;
+
+//     @media (max-width: 768px) {
+//       justify-content: center;
+//     }
+
+//     .dashboard__create-btn {
+//       background: linear-gradient(135deg, #5b3cc4, #9c6bff);
+//       color: white;
+//       border: none;
+//       padding: 0.75rem 1.5rem;
+//       font-size: 1rem;
+//       border-radius: 12px;
+//       cursor: pointer;
+//       font-weight: bold;
+//       transition: transform 0.2s ease, box-shadow 0.3s ease;
+
+//       &:hover {
+//         transform: translateY(-2px);
+//         box-shadow: 0 6px 20px rgba(91, 60, 196, 0.3);
+//       }
+//     }
+//   }
+
+//   &__filters {
+//     display: flex;
+//     justify-content: center;
+//     gap: 1rem;
+//     margin: 2rem 0;
+
+//     button {
+//       padding: 0.6rem 1.2rem;
+//       border: 1px solid #ccc;
+//       border-radius: 8px;
+//       background: #f9f9f9;
+//       cursor: pointer;
+//       font-weight: 500;
+//       transition: all 0.3s ease;
+
+//       &:hover {
+//         background: #eee;
+//       }
+
+//       &.active {
+//         background: #5b3cc4;
+//         color: white;
+//         border-color: #5b3cc4;
+//       }
+//     }
+//   }
+
+//   &__modal-overlay {
+//     position: fixed;
+//     top: 0; left: 0;
+//     width: 100%; height: 100%;
+//     background: rgba(0, 0, 0, 0.4);
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     z-index: 999;
+//     animation: fadeIn 0.3s ease-in;
+//   }
+
+//   &__modal {
+//     background: white;
+//     padding: 2rem;
+//     border-radius: 16px;
+//     width: 90%;
+//     max-width: 420px;
+//     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+//     text-align: center;
+//     animation: scaleIn 0.3s ease;
+
+//     h3 {
+//       color: #5b3cc4;
+//       margin-bottom: 0.5rem;
+//     }
+
+//     p {
+//       margin: 0.4rem 0;
+//       font-size: 1rem;
+//     }
+
+//     .dashboard__modal-buttons {
+//       display: flex;
+//       justify-content: space-around;
+//       margin-top: 1rem;
+//       gap: 1rem;
+
+//       button {
+//         flex: 1;
+//         padding: 0.6rem 1rem;
+//         border-radius: 10px;
+//         font-weight: bold;
+//         cursor: pointer;
+//         border: none;
+//         transition: all 0.2s ease;
+//       }
+
+//       .confirm-btn {
+//         background: #5b3cc4;
+//         color: white;
+
+//         &:hover {
+//           background: #47299b;
+//         }
+//       }
+
+//       .cancel-btn {
+//         background: #eee;
+
+//         &:hover {
+//           background: #ccc;
+//         }
+//       }
+//     }
+//   }
+// }
+
+// @keyframes scaleIn {
+//   from {
+//     transform: scale(0.95);
+//     opacity: 0;
+//   }
+//   to {
+//     transform: scale(1);
+//     opacity: 1;
+//   }
+// }
+
+// @keyframes fadeIn {
+//   from {
+//     opacity: 0;
+//     transform: translateY(12px);
+//   }
+//   to {
+//     opacity: 1;
+//     transform: translateY(0);
+//   }
+// }
+
+
 .dashboard {
   padding: 2rem;
   max-width: 1200px;
@@ -58,10 +209,78 @@
     }
   }
 
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  &__card {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    h4 {
+      margin-bottom: 0.75rem;
+      color: #5b3cc4;
+    }
+
+    p {
+      font-size: 0.95rem;
+      color: #555;
+      margin: 0.3rem 0;
+    }
+
+    .dashboard__card-actions {
+      margin-top: 1rem;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+
+      button {
+        flex: 1;
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+        border: none;
+        transition: background 0.3s ease;
+
+        &.view-btn {
+          background: #5b3cc4;
+          color: white;
+
+          &:hover {
+            background: #47299b;
+          }
+        }
+
+        &.delete-btn {
+          background: #eee;
+
+          &:hover {
+            background: #ccc;
+          }
+        }
+      }
+    }
+  }
+
   &__modal-overlay {
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background: rgba(0, 0, 0, 0.4);
     display: flex;
     align-items: center;

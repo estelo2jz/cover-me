@@ -1,7 +1,6 @@
-// src/pages/Home/Home.scss
-
 .home {
   padding: 2rem;
+  font-family: 'Inter', sans-serif;
 
   &__hero {
     display: flex;
@@ -13,6 +12,7 @@
 
     .home__text {
       flex: 1;
+
       h1 {
         font-size: 2.5rem;
         margin-bottom: 1rem;
@@ -26,18 +26,20 @@
       }
 
       button {
-        background: #5b3cc4;
-        color: white;
+        background: linear-gradient(135deg, #5b3cc4, #9c6bff);
+        color: #fff;
         padding: 0.75rem 1.5rem;
         border: none;
         border-radius: 8px;
         font-weight: bold;
         font-size: 1rem;
         cursor: pointer;
-        transition: background 0.3s ease;
+        transition: all 0.3s ease;
 
         &:hover {
           background: #47299b;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(91, 60, 196, 0.4);
         }
       }
     }
@@ -77,6 +79,15 @@
         cursor: pointer;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         text-align: center;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeSlideIn 0.4s ease forwards;
+
+        @for $i from 1 through 10 {
+          &:nth-child(#{$i}) {
+            animation-delay: #{0.1 * $i}s;
+          }
+        }
 
         &:hover {
           transform: translateY(-4px);
@@ -104,6 +115,7 @@
 
   &__testimonials {
     text-align: center;
+    margin-bottom: 2rem;
 
     h2 {
       font-size: 2rem;
@@ -121,6 +133,15 @@
         padding: 1.25rem;
         border-radius: 10px;
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.04);
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeSlideIn 0.4s ease forwards;
+
+        @for $i from 1 through 10 {
+          &:nth-child(#{$i}) {
+            animation-delay: #{0.1 * $i}s;
+          }
+        }
 
         p {
           font-style: italic;
@@ -134,5 +155,17 @@
         }
       }
     }
+  }
+}
+
+// Animations
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

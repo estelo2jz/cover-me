@@ -5,7 +5,7 @@ import CreateGroup from "../../components/CreateGroup/CreateGroup";
 import Groups from "../../components/Groups/Groups";
 import GroupPreview from "../../components/Groups/GroupPreview";
 import GroupDetail from "../../components/GroupDetail/GroupDetail";
-import User from "../../pages/User/User"; // NEW: user logic separated here
+import User from "../../pages/User/User";
 
 import "./Dashboard.scss";
 
@@ -14,13 +14,12 @@ const Dashboard = ({ currentUser, setCurrentUser }) => {
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [previewGroup, setPreviewGroup] = useState(null);
   const [filter, setFilter] = useState("all");
-
   const [showJoinModal, setShowJoinModal] = useState(false);
   const [joinedGroup, setJoinedGroup] = useState(null);
+  const [visibleCount, setVisibleCount] = useState(0);
 
   const navigate = useNavigate();
 
-  // Load or Seed Groups
   useEffect(() => {
     const stored = localStorage.getItem("savingsGroups");
     if (stored) {
@@ -42,6 +41,15 @@ const Dashboard = ({ currentUser, setCurrentUser }) => {
       seedGroups(currentUser);
     }
   }, [currentUser]);
+
+  useEffect(() => {
+    if (previewGroup || selectedGroup) return;
+    let timer;
+    if (groups.length > 0 && visibleCount < groups.length) {
+      timer = setTimeout(() => setVisibleCount(visibleCount + 1), 100);
+    }
+    return () => clearTimeout(timer);
+  }, [groups, visibleCount, previewGroup, selectedGroup]);
 
   const seedGroups = (creatorName) => {
     const groupNames = ["Emergency Fund", "Wedding Trip", "Gaming PC Build", "Business Starter", "Car Downpayment"];
@@ -114,7 +122,6 @@ const Dashboard = ({ currentUser, setCurrentUser }) => {
       }
 
       updateGroup(updated);
-
       setJoinedGroup(updated);
       setShowJoinModal(true);
     }
@@ -135,6 +142,8 @@ const Dashboard = ({ currentUser, setCurrentUser }) => {
     if (filter === "pending") return !g.isActive;
     return true;
   });
+
+  const visibleGroups = filteredGroups.slice(0, visibleCount);
 
   const renderGroupFilters = () => (
     <div className="dashboard__filters">
@@ -182,7 +191,7 @@ const Dashboard = ({ currentUser, setCurrentUser }) => {
         <>
           {renderGroupFilters()}
           <Groups
-            groups={filteredGroups}
+            groups={visibleGroups}
             currentUser={currentUser}
             onJoin={handleJoinGroup}
             onPreview={setPreviewGroup}

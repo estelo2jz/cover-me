@@ -1,4 +1,3 @@
-// src/pages/User/User.jsx
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserSwitch from "../../components/UserSwitch/UserSwitch";
@@ -17,6 +16,7 @@ export default function User({ currentUser, setCurrentUser }) {
 
   const [showAddUserModal, setShowAddUserModal] = useState(false);
   const [newUserName, setNewUserName] = useState("");
+  const [animatedUsers, setAnimatedUsers] = useState([]);
 
   const navigate = useNavigate();
 
@@ -28,6 +28,18 @@ export default function User({ currentUser, setCurrentUser }) {
 
   useEffect(() => {
     localStorage.setItem("storedUsers", JSON.stringify(users));
+  }, [users]);
+
+  // Animate each user into view one-by-one
+  useEffect(() => {
+    let i = 0;
+    setAnimatedUsers([]); // reset on user change
+    const interval = setInterval(() => {
+      setAnimatedUsers(prev => [...prev, users[i]]);
+      i++;
+      if (i === users.length) clearInterval(interval);
+    }, 80);
+    return () => clearInterval(interval);
   }, [users]);
 
   const handleAddNewUser = () => {
@@ -61,7 +73,6 @@ export default function User({ currentUser, setCurrentUser }) {
     };
   };
 
-  // 🆕 Handle navigation to profile
   const handleUserClick = (userName) => {
     navigate(`/profile/${userName}`);
   };
@@ -75,11 +86,11 @@ export default function User({ currentUser, setCurrentUser }) {
       </div>
 
       <UserSwitch
-        users={users}
+        users={animatedUsers}
         currentUser={currentUser}
         setCurrentUser={setCurrentUser}
         getUserStats={getUserStats}
-        onUserClick={handleUserClick} // 🆕 Pass click handler
+        onUserClick={handleUserClick}
       />
 
       {showAddUserModal && (
