@@ -1,6 +1,7 @@
 // src/pages/Login/Login.jsx
 import React, { useState } from "react";
 import "./Login.scss";
+import Logo from "../../assets/covermee_no_bg.png"; // Adjust path as needed
 
 const Login = ({ onLogin }) => {
   const [name, setName] = useState("");
@@ -26,7 +27,8 @@ const Login = ({ onLogin }) => {
   return (
     <div className="login">
       <form className="login__form" onSubmit={handleLogin}>
-        <h2>Welcome Back</h2>
+        <img src={Logo} alt="CoverMee Logo" className="login__logo" />
+        <h2>Welcome To CoverMee!</h2>
         <input
           type="text"
           placeholder="Enter your name"

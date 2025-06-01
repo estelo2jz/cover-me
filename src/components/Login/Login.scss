@@ -1,57 +1,54 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
 .login {
-  min-height: 100vh;
   display: flex;
-  align-items: center;
   justify-content: center;
-  font-family: 'Inter', sans-serif;
+  align-items: center;
+  height: 100vh;
+  background: #f5f7fa;
   padding: 2rem;
+  font-family: 'Inter', sans-serif;
 
   &__form {
-    background: #ffffff;
-    padding: 2.5rem 2rem;
+    background: #fff;
+    padding: 2.5rem;
     border-radius: 12px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-    max-width: 400px;
-    width: 100%;
-    text-align: center;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
 
     h2 {
-      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      font-size: 1.75rem;
       color: #333;
-      font-weight: 700;
-      margin-bottom: 1rem;
+    }
+
+    .login__logo {
+      width: 120px;
+      margin-bottom: 1.5rem;
     }
 
     input {
       width: 100%;
       padding: 0.8rem 1rem;
-      border: 2px solid #d5ccf5;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
       border-radius: 8px;
       font-size: 1rem;
       transition: border 0.3s ease;
-      background: #fafafa;
 
       &:focus {
-        border-color: #5b3cc4;
         outline: none;
-        background: #fff;
+        border-color: #5b3cc4;
       }
     }
 
     button {
       width: 100%;
-      padding: 0.8rem 1rem;
+      padding: 0.8rem;
       background: #5b3cc4;
       color: #fff;
       border: none;
@@ -67,20 +64,21 @@
     }
   }
 
-  @media (max-width: 480px) {
-    padding: 1rem;
-
+  @media (max-width: 500px) {
     &__form {
-      padding: 2rem 1.2rem;
+      padding: 1.5rem;
 
       h2 {
-        font-size: 1.6rem;
+        font-size: 1.5rem;
+      }
+
+      .login__logo {
+        width: 100px;
       }
 
       input,
       button {
         font-size: 0.95rem;
-        padding: 0.7rem 0.9rem;
       }
     }
   }
