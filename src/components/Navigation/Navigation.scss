@@ -22,6 +22,7 @@
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
+    position: relative;
   }
 
   &__left {
@@ -53,12 +54,17 @@
       display: flex;
       flex-direction: column;
       position: absolute;
-      top: 70px;
+      top: 100%;
       left: 0;
       right: 0;
       background: #fff;
       padding: 1rem;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+      a {
+        padding: 0.8rem 1rem;
+        border-bottom: 1px solid #eee;
+      }
     }
   }
 
@@ -83,48 +89,69 @@
 
     .nav__toggle {
       display: none;
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       background: none;
       border: none;
       cursor: pointer;
+      color: #5b3cc4;
     }
+
     .nav__logout {
-  padding: 0.5rem 1rem;
-  background: transparent;
-  color: #5b3cc4;
-  border: 2px solid #5b3cc4;
-  border-radius: 8px;
-  font-weight: 600;
-  font-family: 'Inter', sans-serif;
-  cursor: pointer;
-  transition: all 0.3s ease;
+      padding: 0.5rem 1rem;
+      background: transparent;
+      color: #5b3cc4;
+      border: 2px solid #5b3cc4;
+      border-radius: 8px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.3s ease;
 
-  &:hover {
-    background-color: #5b3cc4;
-    color: #fff;
+      &:hover {
+        background-color: #5b3cc4;
+        color: #fff;
+      }
+
+      @media (max-width: 768px) {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+      }
+    }
   }
 
   @media (max-width: 768px) {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.9rem;
-  }
-}
+    &__wrapper {
+      flex-direction: column;
+      align-items: flex-start;
+    }
 
-  }
-
-  @media (max-width: 768px) {
     &__menu {
       display: none;
+      width: 100%;
+
+      &.open {
+        display: flex;
+      }
     }
 
     &__right {
+      width: 100%;
+      justify-content: space-between;
+      margin-top: 1rem;
+
       .nav__toggle {
         display: block;
+      }
+
+      .nav__user,
+      .nav__logout {
+        flex: 1;
+        text-align: center;
+        margin: 0.5rem 0;
       }
     }
   }
 }
-
 
 .nav__menu a,
 .nav__user {
@@ -153,10 +180,9 @@
   &:hover {
     color: #5b3cc4;
   }
+
   &.active::after {
     transition: all 0.3s ease;
     width: 100%;
   }
 }
-
-
