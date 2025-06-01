@@ -21,14 +21,21 @@
     max-width: 400px;
 
     h2 {
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
       font-size: 1.75rem;
       color: #333;
+      text-align: center;
     }
 
     .login__logo {
       width: 120px;
       margin-bottom: 1.5rem;
+    }
+
+    .login__error {
+      color: #e74c3c;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
     }
 
     input {
@@ -80,6 +87,24 @@
       button {
         font-size: 0.95rem;
       }
+    }
+  }
+}
+
+
+.login__footer {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: #555;
+
+  span {
+    color: #5b3cc4;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #47299b;
     }
   }
 }

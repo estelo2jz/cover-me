@@ -3,19 +3,29 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./UserProfile.scss";
 
+const fallbackAvatar = "/assets/default_avatar.png"; // optional fallback
+
 const UserProfile = () => {
   const { user } = useParams();
   const navigate = useNavigate();
+
   const [userGroups, setUserGroups] = useState([]);
   const [createdGroups, setCreatedGroups] = useState([]);
+  const [userAvatar, setUserAvatar] = useState(null);
 
   useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem("savingsGroups")) || [];
+    // Get all users from storage
+    const users = JSON.parse(localStorage.getItem("storedUsers")) || [];
+    const currentUser = users.find(u => u.name === user);
+    setUserAvatar(currentUser?.avatar || fallbackAvatar);
 
-    const joined = stored.filter((g) =>
+    // Get all groups from storage
+    const storedGroups = JSON.parse(localStorage.getItem("savingsGroups")) || [];
+
+    const joined = storedGroups.filter((g) =>
       g.members?.some((m) => m.name === user)
     );
-    const created = stored.filter((g) => g.creator === user);
+    const created = storedGroups.filter((g) => g.creator === user);
 
     setUserGroups(joined);
     setCreatedGroups(created);
@@ -31,7 +41,9 @@ const UserProfile = () => {
       <button className="user-profile__back" onClick={() => navigate(-1)}>← Back</button>
 
       <div className="user-profile__header">
-        <div className="user-profile__avatar">{user.charAt(0)}</div>
+        <div className="user-profile__avatar">
+          <img src={userAvatar} alt={`${user}'s avatar`} />
+        </div>
         <div>
           <h2>{user}</h2>
           <p>Groups Joined: {userGroups.length}</p>

@@ -1,0 +1,182 @@
+// src/components/CreateAccount/CreateAccount.scss
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+.create {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #f5f7fa;
+  padding: 2rem;
+  font-family: 'Inter', sans-serif;
+
+  &__form {
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 420px;
+
+    h2 {
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      color: #333;
+    }
+
+    .create__logo {
+      width: 120px;
+      margin-bottom: 1.2rem;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border 0.3s ease;
+
+      &:focus {
+        outline: none;
+        border-color: #5b3cc4;
+      }
+    }
+
+    .create__avatar-preview {
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 1rem;
+      border: 2px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.8rem;
+      background: #5b3cc4;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+
+      &:hover {
+        background: #47299b;
+      }
+    }
+  }
+
+  @media (max-width: 500px) {
+    &__form {
+      padding: 1.5rem;
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .create__logo {
+        width: 100px;
+      }
+
+      input,
+      button,
+      select {
+        font-size: 0.95rem;
+      }
+    }
+  }
+}
+
+
+
+// src/components/CreateAccount/CreateAccount.scss
+.create {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #f5f7fa;
+  padding: 2rem;
+
+  &__form {
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+
+    h2 {
+      margin-bottom: 1.5rem;
+      font-size: 1.75rem;
+      color: #333;
+    }
+
+    .create__logo {
+      width: 100px;
+      margin-bottom: 1rem;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+
+      &:focus {
+        outline: none;
+        border-color: #5b3cc4;
+      }
+    }
+
+    button {
+      width: 100%;
+      padding: 0.8rem;
+      background: #5b3cc4;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+
+      &:hover {
+        background: #47299b;
+      }
+    }
+  }
+
+  &__avatar-preview {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+  }
+
+  &__error {
+    color: red;
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 500px) {
+    &__form {
+      padding: 1.5rem;
+    }
+  }
+}

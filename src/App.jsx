@@ -16,6 +16,7 @@ import CreateGroupPage from "./pages/CreateGroupPage";
 import GroupDetailWrapper from "./components/GroupDetail/GroupDetailWrapper";
 import Navigation from "./components/Navigation/Navigation";
 import Footer from "./pages/Footer/Footer";
+import CreateAccount from "./components/CreateAccount/CreateAccount";
 import Login from "./components/Login/Login";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import Home from "./pages/Home/Home";
@@ -112,6 +113,10 @@ const AppRoutes = ({ currentUser, setCurrentUser }) => {
               element={
                 currentUser ? <Admin /> : <Navigate to="/login" replace />
               }
+            />
+            <Route
+              path="/create-account"
+              element={<CreateAccount onAccountCreated={setCurrentUser} />}
             />
           </Routes>
         </div>
