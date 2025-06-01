@@ -4,8 +4,6 @@ import { useNavigate } from "react-router-dom";
 import "./Login.scss";
 import Logo from "../../assets/covermee_no_bg.png";
 
-const VALID_PASSCODE = "123"; // Set your desired 3-character passcode
-
 const Login = ({ onLogin }) => {
   const [name, setName] = useState("");
   const [passcode, setPasscode] = useState("");
@@ -27,32 +25,28 @@ const Login = ({ onLogin }) => {
       return;
     }
 
-    if (passcode !== VALID_PASSCODE) {
-      setError("Invalid passcode.");
-      return;
-    }
-
-    setError("");
-
     try {
-      const existingUsers = JSON.parse(localStorage.getItem("storedUsers")) || [];
+      const storedUsers = JSON.parse(localStorage.getItem("storedUsers")) || [];
+      const user = storedUsers.find(u => u.name === trimmed);
 
-      const isReturning = existingUsers.some((u) =>
-        typeof u === "string" ? u === trimmed : u.name === trimmed
-      );
-      setWelcomeBack(isReturning);
-
-      localStorage.setItem("currentUser", trimmed);
-
-      if (!isReturning) {
-        const newUser = { name: trimmed, avatar: null, theme: "light" };
-        localStorage.setItem("storedUsers", JSON.stringify([...existingUsers, newUser]));
+      if (!user) {
+        setError("User not found.");
+        return;
       }
 
-      // ✅ Safe state update to avoid React concurrent rendering error
+      if (user.passcode !== passcode) {
+        setError("Incorrect passcode.");
+        return;
+      }
+
+      setError("");
+      setWelcomeBack(true);
+      localStorage.setItem("currentUser", trimmed);
+
       queueMicrotask(() => {
         onLogin(trimmed);
       });
+
     } catch (err) {
       console.error("Login failed:", err);
       setError("Unexpected error during login.");
