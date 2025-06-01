@@ -5,6 +5,7 @@ import {
   Routes,
   Route,
   useLocation,
+  Navigate,
 } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
@@ -15,10 +16,10 @@ import CreateGroupPage from "./pages/CreateGroupPage";
 import GroupDetailWrapper from "./components/GroupDetail/GroupDetailWrapper";
 import Navigation from "./components/Navigation/Navigation";
 import Footer from "./pages/Footer/Footer";
+import Login from "./components/Login/Login";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
-import Home from "./pages/Home/Home"; // or adjust if it's elsewhere
-import User from "./pages/User/User"; // adjust path as needed
-
+import Home from "./pages/Home/Home";
+import User from "./pages/User/User";
 
 import "./App.scss";
 import "./animations/routeAnimations.scss";
@@ -40,33 +41,78 @@ const AppRoutes = ({ currentUser, setCurrentUser }) => {
           <Routes location={location}>
             <Route path="/" element={<Home />} />
             <Route
+              path="/login"
+              element={
+                currentUser ? (
+                  <Navigate to="/dashboard" replace />
+                ) : (
+                  <Login
+                    onLogin={(user) => {
+                      setCurrentUser(user);
+                      localStorage.setItem("currentUser", user);
+                    }}
+                  />
+                )
+              }
+            />
+            <Route
               path="/dashboard"
               element={
-                <Dashboard
-                  currentUser={currentUser}
-                  setCurrentUser={setCurrentUser}
-                />
+                currentUser ? (
+                  <Dashboard
+                    currentUser={currentUser}
+                    setCurrentUser={setCurrentUser}
+                  />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
               }
             />
             <Route
               path="/users"
               element={
-                <User
-                  currentUser={currentUser}
-                  setCurrentUser={setCurrentUser}
-                />
+                currentUser ? (
+                  <User
+                    currentUser={currentUser}
+                    setCurrentUser={setCurrentUser}
+                  />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
               }
             />
-            <Route path="/profile/:user" element={<UserProfile />} />
+            <Route
+              path="/profile/:user"
+              element={
+                currentUser ? <UserProfile /> : <Navigate to="/login" replace />
+              }
+            />
             <Route
               path="/group/:id"
-              element={<GroupDetailWrapper currentUser={currentUser} />}
+              element={
+                currentUser ? (
+                  <GroupDetailWrapper currentUser={currentUser} />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
             />
             <Route
               path="/create"
-              element={<CreateGroupPage currentUser={currentUser} />}
+              element={
+                currentUser ? (
+                  <CreateGroupPage currentUser={currentUser} />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
             />
-            <Route path="/admin" element={<Admin />} />
+            <Route
+              path="/admin"
+              element={
+                currentUser ? <Admin /> : <Navigate to="/login" replace />
+              }
+            />
           </Routes>
         </div>
       </CSSTransition>
@@ -76,16 +122,19 @@ const AppRoutes = ({ currentUser, setCurrentUser }) => {
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(() => {
-    const stored = localStorage.getItem("storedUsers");
-    const users = stored ? JSON.parse(stored) : [];
-    return users[0] || "You"; // fallback
+    return localStorage.getItem("currentUser") || "";
   });
 
   return (
     <Router>
       <ScrollToTop />
       <div className="app">
-        <Navigation currentUser={currentUser} />
+        {currentUser && (
+          <Navigation
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser} // <-- this enables logout
+          />
+        )}
         <main className="app__main">
           <AppRoutes
             currentUser={currentUser}

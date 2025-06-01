@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./Navigation.scss";
 import CoverMe from "../../assets/covermee_no_bg.png";
 
-const Navigation = ({ currentUser }) => {
+const Navigation = ({ currentUser, setCurrentUser }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const toggle = () => setIsOpen(!isOpen);
   const close = () => setIsOpen(false);
@@ -25,6 +26,13 @@ const Navigation = ({ currentUser }) => {
   }, []);
 
   const isActive = (path) => location.pathname.startsWith(path);
+
+  const handleLogout = () => {
+    setCurrentUser(null);
+    localStorage.removeItem("currentUser");
+    close();
+    navigate("/login");
+  };
 
   return (
     <header className={`nav ${hidden ? "nav--hidden" : ""}`}>
@@ -52,12 +60,13 @@ const Navigation = ({ currentUser }) => {
           </Link>
         </nav>
 
-
-
         <div className="nav__right">
           <Link to={`/profile/${currentUser}`} className="nav__user">
             {currentUser}
           </Link>
+          <button className="nav__logout" onClick={handleLogout}>
+            Logout
+          </button>
           <button className="nav__toggle" onClick={toggle}>
             ☰
           </button>

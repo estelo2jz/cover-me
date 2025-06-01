@@ -88,6 +88,28 @@
       border: none;
       cursor: pointer;
     }
+    .nav__logout {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  color: #5b3cc4;
+  border: 2px solid #5b3cc4;
+  border-radius: 8px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #5b3cc4;
+    color: #fff;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+}
+
   }
 
   @media (max-width: 768px) {
@@ -102,6 +124,7 @@
     }
   }
 }
+
 
 .nav__menu a,
 .nav__user {

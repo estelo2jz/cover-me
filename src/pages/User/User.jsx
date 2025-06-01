@@ -6,18 +6,13 @@ import "./User.scss";
 export default function User({ currentUser, setCurrentUser }) {
   const [users, setUsers] = useState(() => {
     const saved = localStorage.getItem("storedUsers");
-    return saved
-      ? JSON.parse(saved)
-      : [
-        "Alice", "Bob", "Charlie", "Diana", "Ethan", "Frank", "Grace",
-        "Hannah", "Ivan", "Jenny", "Kyle", "Liam", "Mia", "Noah", "Olivia", "Paul",
-        "Quinn", "Riley", "Sophia", "Tyler", "Uma", "Victor", "Telo", "Xavier",
-        "Yara", "Zane"
-      ];
+    return saved ? JSON.parse(saved) : [];
   });
 
   const [showAddUserModal, setShowAddUserModal] = useState(false);
   const [newUserName, setNewUserName] = useState("");
+  const [newAvatar, setNewAvatar] = useState(null);
+  const [newTheme, setNewTheme] = useState("light");
   const [animatedUsers, setAnimatedUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState("");
 
@@ -25,7 +20,7 @@ export default function User({ currentUser, setCurrentUser }) {
 
   useEffect(() => {
     if (!currentUser && users.length > 0) {
-      setCurrentUser(users[0]);
+      setCurrentUser(users[0].name);
     }
   }, [users, currentUser, setCurrentUser]);
 
@@ -53,18 +48,30 @@ export default function User({ currentUser, setCurrentUser }) {
 
   const handleAddNewUser = () => {
     const trimmed = newUserName.trim();
-    if (!trimmed || users.includes(trimmed)) return;
+    if (!trimmed || users.some(u => u.name === trimmed)) return;
 
-    const newList = [...users, trimmed];
-    setUsers(newList);
-    localStorage.setItem("storedUsers", JSON.stringify(newList));
+    const newUser = {
+      name: trimmed,
+      avatar: newAvatar,
+      theme: newTheme
+    };
 
-    if (!currentUser) {
-      setCurrentUser(trimmed);
-    }
+    const updatedList = [...users, newUser];
+    setUsers(updatedList);
+    setCurrentUser(trimmed);
 
     setNewUserName("");
+    setNewAvatar(null);
+    setNewTheme("light");
     setShowAddUserModal(false);
+  };
+
+  const handleAvatarUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => setNewAvatar(reader.result);
+    reader.readAsDataURL(file);
   };
 
   const getUserStats = (user) => {
@@ -85,7 +92,7 @@ export default function User({ currentUser, setCurrentUser }) {
   const handleUserClick = (userName) => {
     navigate(`/profile/${userName}`);
     setCurrentUser(userName);
-    setSelectedUser(userName); // new selected logic
+    setSelectedUser(userName);
   };
 
   return (
@@ -107,14 +114,27 @@ export default function User({ currentUser, setCurrentUser }) {
 
       {showAddUserModal && (
         <div className="dashboard__modal-overlay">
-          <div className="dashboard__modal">
-            <h3>New User</h3>
+          <div className="dashboard__modal user-modal">
+            <h3>Create New User</h3>
             <input
               type="text"
               value={newUserName}
               onChange={(e) => setNewUserName(e.target.value)}
-              placeholder="Enter user name"
+              placeholder="Enter name"
             />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleAvatarUpload}
+            />
+            {newAvatar && (
+              <img src={newAvatar} alt="Preview" className="user-modal__avatar-preview" />
+            )}
+            <select value={newTheme} onChange={(e) => setNewTheme(e.target.value)}>
+              <option value="light">Light Theme</option>
+              <option value="dark">Dark Theme</option>
+              <option value="blue">Blue Theme</option>
+            </select>
             <button onClick={handleAddNewUser}>Add</button>
             <button className="cancel" onClick={() => setShowAddUserModal(false)}>Cancel</button>
           </div>
