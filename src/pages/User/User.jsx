@@ -6,7 +6,7 @@ import "./User.scss";
 export default function User({ currentUser, setCurrentUser }) {
   const [users, setUsers] = useState(() => {
     const saved = localStorage.getItem("storedUsers");
-    return saved ? JSON.parse(saved) : [];
+    return saved ? JSON.parse(saved).filter((u) => u.name !== "You") : [];
   });
 
   const [showAddUserModal, setShowAddUserModal] = useState(false);

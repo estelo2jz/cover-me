@@ -13,11 +13,6 @@ const UserSwitch = ({
 }) => {
   const navigate = useNavigate();
 
-  const handleProfileView = (user, e) => {
-    e.stopPropagation(); // prevent parent card click
-    setCurrentUser(user);
-    navigate(`/profile/${user}`);
-  };
 
   return (
     <div className="user-switch">
